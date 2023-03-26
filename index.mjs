@@ -115,6 +115,7 @@ app.message(/^(draw|画)/i, async ({ message, say }) => {
   const thread_ts = message.thread_ts || message.ts;
   const command = message.text.replace(/^draw|画/i, "");
   const prompt = await chatgpt.sendMessage(`transport the following message into a stable defussion prompt in english and only return the english prompt without explanation: ${command}`);
+  await say({ text: `Prompt message is "${prompt}"`, thread_ts });
   const prediction = await replicate
     .model(
       "stability-ai/stable-diffusion:db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf",
