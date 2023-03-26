@@ -5,6 +5,8 @@ import replicate from "node-replicate";
 import LRUCache from 'lru-cache';
 import { exec } from 'child_process';
 import { WebClient } from '@slack/web-api';
+import os from 'os';
+
 
 
 // Initialize
@@ -106,10 +108,12 @@ app.message(/^draw|画/i, async ({ message, say }) => {
   // Start the app
   await app.start(process.env.PORT || 3000);
 
-  const result = await web.chat.postMessage({
-    text: 'App started',
+  const text = `⚡️ Bolt app is running on machine ${os.hostname()} at ${Date()}`;
+
+  await web.chat.postMessage({
+    text,
     channel: CHATGPT_CHANNEL_ID,
   });
 
-  console.log('⚡️ Bolt app is running!');
+  console.log(text);
 })();
