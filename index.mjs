@@ -2,7 +2,17 @@ import pkg from '@slack/bolt';
 import { ChatGPTAPI } from 'chatgpt';
 import { OPENAI_API_KEY, SLACK_APP_TOKEN, SLACK_BOT_TOKEN, SLACK_SIGNING_SECRET } from './config.mjs';
 import replicate from "node-replicate";
-import LRUCache from 'lru-cache'
+import LRUCache from 'lru-cache';
+import { exec } from 'child_process';
+
+const run = async (cmd) => {
+  const child = exec(cmd, (err) => {
+      if (err) console.error(err);
+  });
+  child.stderr.pipe(process.stderr);
+  child.stdout.pipe(process.stdout);
+  await new Promise((resolve) => child.on('close', resolve));
+};
 
 import { simpleGit } from 'simple-git';
 
@@ -63,7 +73,10 @@ app.message('git pull', async ({ message, say }) => {
   // runs: git -c http.proxy=someproxy pull
   await git.pull();
   console.log('pulled');
+  await run(`npm install`);
+  console.log('installed!!');
   await say({ text: 'pulled', thread_ts: message.ts });
+  await run(`pm2 restart all`);
 });
 
 app.message(/^draw|画/i, async ({ message, say }) => {
