@@ -15,11 +15,16 @@ const chatgpt = new ChatGPTAPI({
   apiKey: OPENAI_API_KEY,
 });
 
-/* Add functionality here */
+const conversationMap = new Map();
 
+/* Add functionality here */
 app.message(/.*/, async ({ message, say }) => {
-  console.warn(message);
-  const res = await chatgpt.sendMessage(message.text)
+  const parentMessageId = conversationMap.has(message.channel) ? conversationMap.get(message.channel) : undefined;
+  console.log(message);
+  const res = await chatgpt.sendMessage(message.text, {
+    parentMessageId,
+  });
+  conversationMap.set(message.channel, res.id);
   // say() sends a message to the channel where the event was triggered
   await say(res.text);
 });
