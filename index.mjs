@@ -114,14 +114,15 @@ app.message(/^(draw|画)/i, async ({ message, say }) => {
   console.log('transport message to prompt through chatgpt');
   const thread_ts = message.thread_ts || message.ts;
   const command = message.text.replace(/^draw|画/i, "");
-  const prompt = await chatgpt.sendMessage(`transport the following message into a stable defussion prompt in english and only return the english prompt without explanation: ${command}`);
-  await say({ text: `Prompt message is "${prompt.text}"`, thread_ts });
+  const prompt = await chatgpt.sendMessage(`This is a draw request, “${message}” can you translate it into English for the content I want and then generate a stable diffusion prompt? Return in the following format. Translation: xxx;Prompt: xxx`);
+  await say({ text: `Prompt message information: "${prompt.text}"`, thread_ts });
+  const matchResult = prompt.text.match(/Prompt: (.*)$/);
   const prediction = await replicate
     .model(
       "stability-ai/stable-diffusion:db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf",
     )
     .predict({
-      prompt: prompt.text.startsWith('Sorry,') ? command : prompt.text,
+      prompt: matchResult && matchResult.length > 1 ? command : matchResult[1],
     })
   console.log(prediction);
   // say() sends a message to the channel where the event was triggered
