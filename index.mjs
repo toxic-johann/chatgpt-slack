@@ -120,7 +120,7 @@ app.message(/^draw|画/i, async ({ message, say }) => {
       "stability-ai/stable-diffusion:db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf",
     )
     .predict({
-      prompt: prompt.text,
+      prompt: prompt.text.startsWith('Sorry,') ? command : prompt.text,
     })
   console.log(prediction);
   // say() sends a message to the channel where the event was triggered
