@@ -114,7 +114,7 @@ app.message(/^(draw|画)/i, async ({ message, say }) => {
   console.log('transport message to prompt through chatgpt');
   const thread_ts = message.thread_ts || message.ts;
   const command = message.text.replace(/^draw|画/i, "");
-  const prompt = await chatgpt.sendMessage(`This is a draw request, “${message}” can you translate it into English for the content I want and then generate a stable diffusion prompt? Return in the following format. Translation: xxx;Prompt: xxx`);
+  const prompt = await chatgpt.sendMessage(`This is a draw request, “${message.text}” can you translate it into English for the content I want and then generate a stable diffusion prompt? Return in the following format. Translation: xxx;Prompt: xxx`);
   await say({ text: `Prompt message information: "${prompt.text}"`, thread_ts });
   const matchResult = prompt.text.match(/Prompt: (.*)$/);
   const prediction = await replicate
