@@ -1,9 +1,14 @@
 import pkg from '@slack/bolt';
 import { ChatGPTAPI } from 'chatgpt';
-import { OPENAI_API_KEY, SLACK_APP_TOKEN, SLACK_BOT_TOKEN, SLACK_SIGNING_SECRET } from './config.mjs';
+import { CHATGPT_CHANNEL_ID, OPENAI_API_KEY, SLACK_APP_TOKEN, SLACK_BOT_TOKEN, SLACK_SIGNING_SECRET } from './config.mjs';
 import replicate from "node-replicate";
 import LRUCache from 'lru-cache';
 import { exec } from 'child_process';
+import { WebClient } from '@slack/web-api';
+
+
+// Initialize
+const web = new WebClient(SLACK_BOT_TOKEN);
 
 const run = async (cmd) => {
   const child = exec(cmd, (err) => {
@@ -100,6 +105,11 @@ app.message(/^draw|画/i, async ({ message, say }) => {
 (async () => {
   // Start the app
   await app.start(process.env.PORT || 3000);
+
+  const result = await web.chat.postMessage({
+    text: 'App started',
+    channel: CHATGPT_CHANNEL_ID,
+  });
 
   console.log('⚡️ Bolt app is running!');
 })();
