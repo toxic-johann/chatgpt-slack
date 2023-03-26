@@ -1,7 +1,29 @@
 import pkg from '@slack/bolt';
 import { ChatGPTAPI } from 'chatgpt';
 import { OPENAI_API_KEY, SLACK_APP_TOKEN, SLACK_BOT_TOKEN, SLACK_SIGNING_SECRET } from './config.mjs';
-import replicate from "node-replicate"
+import replicate from "node-replicate";
+import LRUCache from 'lru-cache'
+
+const options = {
+  max: 500,
+
+  // for use with tracking overall storage size
+  maxSize: 5000,
+  sizeCalculation: (value, key) => {
+    return 1
+  },
+
+  // how long to live in ms
+  ttl: 1000 * 60 * 5,
+
+  // return stale items before removing from cache?
+  allowStale: false,
+
+  updateAgeOnGet: false,
+  updateAgeOnHas: false,
+}
+
+const conversationCache = new LRUCache(options);
 
 const { App } = pkg;
 
@@ -16,19 +38,18 @@ const chatgpt = new ChatGPTAPI({
   apiKey: OPENAI_API_KEY,
 });
 
-const conversationMap = new Map();
-
 /* Add functionality here */
 app.message(/.*/, async ({ message, say }) => {
   if (message.text.match(/^draw|画/i)) return;
-  const parentMessageId = conversationMap.has(message.channel) ? conversationMap.get(message.channel) : undefined;
+  const thread_ts = message.thread_ts || message.ts;
+  const parentMessageId = conversationCache.get(thread_ts);
   console.log(message);
   const res = await chatgpt.sendMessage(message.text, {
     parentMessageId,
   });
-  conversationMap.set(message.channel, res.id);
+  conversationCache.set(thread_ts, res.id);
   // say() sends a message to the channel where the event was triggered
-  await say(res.text);
+  await say({ text: res.text, thread_ts });
 });
 
 app.message(/^draw|画/i, async ({ message, say }) => {
