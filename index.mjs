@@ -4,6 +4,8 @@ import { OPENAI_API_KEY, SLACK_APP_TOKEN, SLACK_BOT_TOKEN, SLACK_SIGNING_SECRET 
 import replicate from "node-replicate";
 import LRUCache from 'lru-cache'
 
+import { simpleGit } from 'simple-git';
+
 const options = {
   max: 500,
 
@@ -39,17 +41,29 @@ const chatgpt = new ChatGPTAPI({
 });
 
 /* Add functionality here */
-app.message(/.*/, async ({ message, say }) => {
-  if (message.text.match(/^draw|画/i)) return;
+app.message(/^(?!(git pull|draw|画)).*$/, async ({ message, say }) => {
+  console.log(message);
+  console.log('calling chatgpt');
   const thread_ts = message.thread_ts || message.ts;
   const parentMessageId = conversationCache.get(thread_ts);
-  console.log(message);
   const res = await chatgpt.sendMessage(message.text, {
     parentMessageId,
   });
   conversationCache.set(thread_ts, res.id);
   // say() sends a message to the channel where the event was triggered
   await say({ text: res.text, thread_ts });
+});
+
+app.message('git pull', async ({ message, say }) => {
+  console.log('git pulling');
+  // configure the instance with a custom configuration property
+  const git = simpleGit();
+
+  // any command executed will be prefixed with this config
+  // runs: git -c http.proxy=someproxy pull
+  await git.pull();
+  console.log('pulled');
+  await say({ text: 'pulled', thread_ts: message.ts });
 });
 
 app.message(/^draw|画/i, async ({ message, say }) => {
