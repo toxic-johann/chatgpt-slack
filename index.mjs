@@ -58,7 +58,7 @@ const chatgpt = new ChatGPTAPI({
 });
 
 /* Add functionality here */
-app.message(/^(?!(git pull|draw|画))(.|\s)*$/, async ({ message, say }) => {
+app.message(/^(?!(git pull|draw|画|SD:))(.|\s)*$/i, async ({ message, say }) => {
   console.log(message);
   console.log('calling chatgpt');
   const thread_ts = message.thread_ts || message.ts;
