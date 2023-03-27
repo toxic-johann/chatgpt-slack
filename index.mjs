@@ -109,6 +109,8 @@ app.message('git pull', async ({ message, say }) => {
   await run(`pm2 restart all`);
 });
 
+app.message(/.*/, async ({ message, say }) => {console.log(message)});
+
 app.message(/^(draw|画)/i, async ({ message, say }) => {
   console.log(message);
   console.log('transport message to prompt through chatgpt');
