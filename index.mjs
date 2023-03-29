@@ -58,7 +58,7 @@ const chatgpt = new ChatGPTAPI({
 });
 
 /* Add functionality here */
-app.message(/^(?!(git pull|draw|画|SD:))(.|\s)*$/i, async ({ message, say }) => {
+app.message(/^(?!(git pull|draw|画|畫|SD:))(.|\s)*$/i, async ({ message, say }) => {
   console.log(message);
   console.log('calling chatgpt');
   const thread_ts = message.thread_ts || message.ts;
@@ -109,7 +109,7 @@ app.message('git pull', async ({ message, say }) => {
   await run(`pm2 restart all`);
 });
 
-app.message(/^(draw|画)/i, async ({ message, say }) => {
+app.message(/^(draw|画|畫)/i, async ({ message, say }) => {
   console.log(message);
   console.log('transport message to prompt through chatgpt');
   const thread_ts = message.thread_ts || message.ts;
