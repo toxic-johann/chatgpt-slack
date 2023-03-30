@@ -4,7 +4,7 @@ import replicate from 'node-replicate';
 import LRUCache from 'lru-cache';
 import os from 'os';
 import {
-  CHATGPT_CHANNEL_ID, OPENAI_API_KEY, SLACK_APP_TOKEN, SLACK_BOT_TOKEN, SLACK_SIGNING_SECRET,
+  OPENAI_API_KEY, SLACK_APP_TOKEN, SLACK_BOT_TOKEN, SLACK_SIGNING_SECRET,
 } from './config.mjs';
 import { autoUpdate } from './utils/auto-update.mjs';
 import { sendMessageToChannel } from './utils/web-client.mjs';
