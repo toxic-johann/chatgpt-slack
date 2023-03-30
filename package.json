@@ -16,6 +16,7 @@
     "chatgpt": "^5.1.2",
     "lru-cache": "^8.0.4",
     "node-replicate": "^1.1.6",
+    "pm2": "^5.3.0",
     "simple-git": "^3.17.0"
   }
 }

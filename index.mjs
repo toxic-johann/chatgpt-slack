@@ -1,27 +1,15 @@
+import { autoUpdate } from './auto-update.mjs';
+
 import pkg from '@slack/bolt';
 import { ChatGPTAPI } from 'chatgpt';
 import { CHATGPT_CHANNEL_ID, OPENAI_API_KEY, SLACK_APP_TOKEN, SLACK_BOT_TOKEN, SLACK_SIGNING_SECRET } from './config.mjs';
 import replicate from "node-replicate";
 import LRUCache from 'lru-cache';
-import { exec } from 'child_process';
 import { WebClient } from '@slack/web-api';
 import os from 'os';
 
-
-
 // Initialize
 const web = new WebClient(SLACK_BOT_TOKEN);
-
-const run = async (cmd) => {
-  const child = exec(cmd, (err) => {
-      if (err) console.error(err);
-  });
-  child.stderr.pipe(process.stderr);
-  child.stdout.pipe(process.stdout);
-  await new Promise((resolve) => child.on('close', resolve));
-};
-
-import { simpleGit } from 'simple-git';
 
 const options = {
   max: 500,
@@ -72,41 +60,16 @@ app.message(/^(?!(git pull|draw|画|畫|SD:))(.|\s)*$/i, async ({ message, say }
 });
 
 app.message('git pull', async ({ message, say }) => {
-  try {
-    await web.chat.postMessage({
-      text: 'Restart command confirmed',
-      channel: CHATGPT_CHANNEL_ID,
-    });
-  } catch (error) {
-    console.error(error);
-  }
-  console.log('git pulling');
-  // configure the instance with a custom configuration property
-  const git = simpleGit();
-
-  // any command executed will be prefixed with this config
-  // runs: git -c http.proxy=someproxy pull
-  await git.pull();
-  console.log('pulled');
-  try {
-    await web.chat.postMessage({
-      text: 'Code updated',
-      channel: CHATGPT_CHANNEL_ID,
-    });
-  } catch (error) {
-    console.error(error);
-  }
-  await run(`npm install`);
-  console.log('installed!!');
-  try {
-    await web.chat.postMessage({
-      text: 'Dependencies installed',
-      channel: CHATGPT_CHANNEL_ID,
-    });
-  } catch (error) {
-    console.error(error);
-  }
-  await run(`pm2 restart all`);
+  autoUpdate(true, async (text) => {
+    try {
+      await web.chat.postMessage({
+        text,
+        channel: CHATGPT_CHANNEL_ID,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  });
 });
 
 app.message(/^(draw|画|畫)/i, async ({ message, say }) => {
