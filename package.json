@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ./*.mjs"
   },
   "author": "",
   "license": "ISC",
@@ -18,5 +19,10 @@
     "node-replicate": "^1.1.6",
     "pm2": "^5.3.0",
     "simple-git": "^3.17.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.37.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5"
   }
 }

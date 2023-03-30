@@ -1,12 +1,13 @@
-import { autoUpdate } from './auto-update.mjs';
-
 import pkg from '@slack/bolt';
 import { ChatGPTAPI } from 'chatgpt';
-import { CHATGPT_CHANNEL_ID, OPENAI_API_KEY, SLACK_APP_TOKEN, SLACK_BOT_TOKEN, SLACK_SIGNING_SECRET } from './config.mjs';
-import replicate from "node-replicate";
+import replicate from 'node-replicate';
 import LRUCache from 'lru-cache';
 import { WebClient } from '@slack/web-api';
 import os from 'os';
+import {
+  CHATGPT_CHANNEL_ID, OPENAI_API_KEY, SLACK_APP_TOKEN, SLACK_BOT_TOKEN, SLACK_SIGNING_SECRET,
+} from './config';
+import { autoUpdate } from './auto-update';
 
 // Initialize
 const web = new WebClient(SLACK_BOT_TOKEN);
@@ -16,9 +17,7 @@ const options = {
 
   // for use with tracking overall storage size
   maxSize: 5000,
-  sizeCalculation: (value, key) => {
-    return 1
-  },
+  sizeCalculation: (_value, _key) => 1,
 
   // how long to live in ms
   ttl: 1000 * 60 * 5,
@@ -28,7 +27,7 @@ const options = {
 
   updateAgeOnGet: false,
   updateAgeOnHas: false,
-}
+};
 
 const conversationCache = new LRUCache(options);
 
@@ -59,7 +58,7 @@ app.message(/^(?!(git pull|draw|画|畫|SD:))(.|\s)*$/i, async ({ message, say }
   await say({ text: res.text, thread_ts });
 });
 
-app.message('git pull', async ({ message, say }) => {
+app.message('git pull', async () => {
   autoUpdate(true, async (text) => {
     try {
       await web.chat.postMessage({
@@ -81,11 +80,11 @@ app.message(/^(draw|画|畫)/i, async ({ message, say }) => {
   await say({ text: result.text, thread_ts });
   const prediction = await replicate
     .model(
-      "stability-ai/stable-diffusion:db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf",
+      'stability-ai/stable-diffusion:db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf',
     )
     .predict({
       prompt: promptMatch && promptMatch.length > 0 ? promptMatch[1] : prompt.text,
-    })
+    });
   console.log(prediction);
   // say() sends a message to the channel where the event was triggered
   await say({ text: prediction.output[0], thread_ts });
@@ -94,14 +93,14 @@ app.message(/^(draw|画|畫)/i, async ({ message, say }) => {
 app.message(/^SD:/i, async ({ message, say }) => {
   console.log(message);
   const thread_ts = message.thread_ts || message.ts;
-  const command = message.text.replace(/^SD/i, "");
+  const command = message.text.replace(/^SD/i, '');
   const prediction = await replicate
     .model(
-      "stability-ai/stable-diffusion:db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf",
+      'stability-ai/stable-diffusion:db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf',
     )
     .predict({
       prompt: command,
-    })
+    });
   console.log(prediction);
   // say() sends a message to the channel where the event was triggered
   await say({ text: prediction.output[0], thread_ts });
