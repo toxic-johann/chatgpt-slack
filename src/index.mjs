@@ -1,32 +1,15 @@
+// eslint-disable-next-line import/order
+import { autoUpdate } from './utils/auto-update.mjs';
+
 import pkg from '@slack/bolt';
 import { ChatGPTAPI } from 'chatgpt';
 import replicate from 'node-replicate';
-import LRUCache from 'lru-cache';
 import os from 'os';
 import {
   OPENAI_API_KEY, SLACK_APP_TOKEN, SLACK_BOT_TOKEN, SLACK_SIGNING_SECRET,
 } from './config.mjs';
-import { autoUpdate } from './utils/auto-update.mjs';
 import { sendMessageToChannel } from './utils/web-client.mjs';
-
-const options = {
-  max: 500,
-
-  // for use with tracking overall storage size
-  maxSize: 5000,
-  sizeCalculation: (_value, _key) => 1,
-
-  // how long to live in ms
-  ttl: 1000 * 60 * 5,
-
-  // return stale items before removing from cache?
-  allowStale: false,
-
-  updateAgeOnGet: false,
-  updateAgeOnHas: false,
-};
-
-const conversationCache = new LRUCache(options);
+import conversationCache from './utils/conversation-cache.mjs';
 
 const { App } = pkg;
 
