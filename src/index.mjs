@@ -10,6 +10,7 @@ import {
 } from './config.mjs';
 import { sendMessageToChannel } from './utils/web-client.mjs';
 import conversationCache from './utils/conversation-cache.mjs';
+import stableDiffusion from './route/stable-diffusion.mjs';
 
 const { App } = pkg;
 
@@ -61,21 +62,7 @@ app.message(/^(draw|画|畫)/i, async ({ message, say }) => {
   await say({ text: prediction.output[0], thread_ts });
 });
 
-app.message(/^SD:/i, async ({ message, say }) => {
-  console.log(message);
-  const thread_ts = message.thread_ts || message.ts;
-  const command = message.text.replace(/^SD/i, '');
-  const prediction = await replicate
-    .model(
-      'stability-ai/stable-diffusion:db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf',
-    )
-    .predict({
-      prompt: command,
-    });
-  console.log(prediction);
-  // say() sends a message to the channel where the event was triggered
-  await say({ text: prediction.output[0], thread_ts });
-});
+app.message(/^SD:/i, stableDiffusion);
 
 (async () => {
   // Start the app
