@@ -2,15 +2,12 @@ import pkg from '@slack/bolt';
 import { ChatGPTAPI } from 'chatgpt';
 import replicate from 'node-replicate';
 import LRUCache from 'lru-cache';
-import { WebClient } from '@slack/web-api';
 import os from 'os';
 import {
   CHATGPT_CHANNEL_ID, OPENAI_API_KEY, SLACK_APP_TOKEN, SLACK_BOT_TOKEN, SLACK_SIGNING_SECRET,
 } from './config.mjs';
-import { autoUpdate } from './auto-update.mjs';
-
-// Initialize
-const web = new WebClient(SLACK_BOT_TOKEN);
+import { autoUpdate } from './utils/auto-update.mjs';
+import { sendMessageToChannel } from './utils/web-client.mjs';
 
 const options = {
   max: 500,
@@ -59,16 +56,7 @@ app.message(/^(?!(git pull|draw|画|畫|SD:))(.|\s)*$/i, async ({ message, say }
 });
 
 app.message('git pull', async () => {
-  autoUpdate(true, async (text) => {
-    try {
-      await web.chat.postMessage({
-        text,
-        channel: CHATGPT_CHANNEL_ID,
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  });
+  autoUpdate(true, sendMessageToChannel);
 });
 
 app.message(/^(draw|画|畫)/i, async ({ message, say }) => {
@@ -112,10 +100,7 @@ app.message(/^SD:/i, async ({ message, say }) => {
 
   const text = `⚡️ Bolt app is running on machine ${os.hostname()} at ${Date()}`;
 
-  await web.chat.postMessage({
-    text,
-    channel: CHATGPT_CHANNEL_ID,
-  });
+  sendMessageToChannel(text);
 
   console.log(text);
 })();
