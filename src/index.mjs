@@ -6,8 +6,8 @@ import { WebClient } from '@slack/web-api';
 import os from 'os';
 import {
   CHATGPT_CHANNEL_ID, OPENAI_API_KEY, SLACK_APP_TOKEN, SLACK_BOT_TOKEN, SLACK_SIGNING_SECRET,
-} from './config';
-import { autoUpdate } from './auto-update';
+} from './config.mjs';
+import { autoUpdate } from './auto-update.mjs';
 
 // Initialize
 const web = new WebClient(SLACK_BOT_TOKEN);
