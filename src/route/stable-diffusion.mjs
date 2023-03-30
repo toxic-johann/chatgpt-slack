@@ -5,7 +5,7 @@ export default async ({ message, say }) => {
   console.log(message);
   const thread_ts = getThreadTs(message);
   const command = message.text.replace(/^SD:/i, '');
-  say({ text: `Your command is ${command}`, thread_ts });
+  say({ text: `Your command is "${command}"`, thread_ts });
   const prediction = await replicate
     .model(
       'stability-ai/stable-diffusion:db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf',
