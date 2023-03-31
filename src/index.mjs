@@ -20,14 +20,26 @@ const app = new App({
   appToken: SLACK_APP_TOKEN,
 });
 
-/* Add functionality here */
-app.message(/^(?!(git pull|draw|画|畫|SD:))(.|\s)*$/i, chat);
+const routesMap = new Map();
+routesMap.set('git pull', () => autoUpdate(true, sendMessageToChannel));
+routesMap.set(/^(draw|画|畫)/i, draw);
+routesMap.set(/^SD:/i, stableDiffusion);
 
-app.message('git pull', () => autoUpdate(true, sendMessageToChannel));
+const keys = [];
 
-app.message(/^(draw|画|畫)/i, draw);
+routesMap.forEach((value, key) => {
+  console.warn(key, value);
+  app.message(key, (data) => {
+    console.log(data.message);
+    value(data);
+  });
+  keys.push(key.toString().replace(/^\/\^/, '').replace(/\/i$/, ''));
+});
 
-app.message(/^SD:/i, stableDiffusion);
+const defaultRegExp = new RegExp(`^(?!(${keys.join('|')}))(.|\s)*$`, 'i');
+console.warn(defaultRegExp)
+
+app.message(defaultRegExp, chat);
 
 (async () => {
   // Start the app
