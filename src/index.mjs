@@ -27,19 +27,22 @@ routesMap.set(/^SD:/i, stableDiffusion);
 
 const keys = [];
 
-routesMap.forEach((value, key) => {
-  console.warn(key, value);
-  app.message(key, (data) => {
+const logWrapper = (fn) => {
+  return (data) => {
     console.log(data.message);
-    value(data);
-  });
+    fn(data);
+  };
+} 
+
+routesMap.forEach((value, key) => {
+  app.message(key, logWrapper(value));
   keys.push(key.toString().replace(/^\/\^/, '').replace(/\/i$/, ''));
 });
 
 const defaultRegExp = new RegExp(`^(?!(${keys.join('|')}))(.|\s)*$`, 'i');
 console.warn(defaultRegExp)
 
-app.message(defaultRegExp, chat);
+app.message(defaultRegExp, logWrapper(chat));
 
 (async () => {
   // Start the app

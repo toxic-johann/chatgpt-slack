@@ -3,7 +3,6 @@ import { getThreadTs } from '../selectors/message.mjs';
 import chatgpt from '../utils/chatgpt.mjs';
 
 export default async ({ message, say }) => {
-  console.log(message);
   console.log('transport message to prompt through chatgpt');
   const thread_ts = getThreadTs(message);
   const result = await chatgpt.sendMessage(`This is a draw request, “${message.text}”. Please extract the content that I want to draw and name it item A. For example, "draw a dog" should generate item A as "a dog". And then optimize the item A you just generate as a stable diffusion prompt in English. Return me the result in the following format: "Item A:xxx; Prompt: xxx".`);

@@ -2,7 +2,6 @@ import replicate from 'node-replicate';
 import { getThreadTs } from '../selectors/message.mjs';
 
 export default async ({ message, say }) => {
-  console.log(message);
   const thread_ts = getThreadTs(message);
   const command = message.text.replace(/^SD:/i, '');
   say({ text: `Your command is "${command}"`, thread_ts });

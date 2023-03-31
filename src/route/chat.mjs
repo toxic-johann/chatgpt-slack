@@ -2,7 +2,6 @@ import chatgpt from '../utils/chatgpt.mjs';
 import conversationCache from '../utils/conversation-cache.mjs';
 
 export default async ({ message, say }) => {
-  console.log(message);
   console.log('calling chatgpt');
   const thread_ts = message.thread_ts || message.ts;
   const parentMessageId = conversationCache.get(thread_ts);
