@@ -1,7 +1,10 @@
 // eslint-disable-next-line import/order
+import './utils/fetch-polyfill.mjs';
+import { autoUpdate } from './utils/auto-update.mjs';
+
 import pkg from '@slack/bolt';
 import os from 'os';
-import { autoUpdate } from './utils/auto-update.mjs';
+
 
 import {
   SLACK_APP_TOKEN, SLACK_BOT_TOKEN, SLACK_SIGNING_SECRET,
