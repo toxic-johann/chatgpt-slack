@@ -28,7 +28,7 @@ const routesMap = new Map();
 routesMap.set('git pull', () => autoUpdate(true, sendMessageToChannel));
 routesMap.set(/^(draw|画|畫)/i, draw);
 routesMap.set(/^SD:/i, stableDiffusion);
-routesMap.set(new RegExp(`^(${ISO6391.getAllCodes().join('|')}):`), translate);
+routesMap.set(new RegExp(`^(${ISO6391.getAllCodes().join('|')}):`, 'i'), translate);
 
 const keys = [];
 
