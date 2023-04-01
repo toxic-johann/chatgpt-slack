@@ -4,6 +4,7 @@ import './utils/fetch-polyfill.mjs';
 import pkg from '@slack/bolt';
 import os from 'os';
 import { autoUpdate } from './utils/auto-update.mjs';
+import ISO6391 from 'iso-639-1';
 
 import {
   SLACK_APP_TOKEN, SLACK_BOT_TOKEN, SLACK_SIGNING_SECRET,
@@ -12,6 +13,7 @@ import { sendMessageToChannel } from './utils/web-client.mjs';
 import stableDiffusion from './route/stable-diffusion.mjs';
 import draw from './route/draw.mjs';
 import chat from './route/chat.mjs';
+import translate from './route/translate.mjs';
 
 const { App } = pkg;
 
@@ -26,6 +28,7 @@ const routesMap = new Map();
 routesMap.set('git pull', () => autoUpdate(true, sendMessageToChannel));
 routesMap.set(/^(draw|画|畫)/i, draw);
 routesMap.set(/^SD:/i, stableDiffusion);
+routesMap.set(new RegExp(`^(${ISO6391.getAllCodes().join('|')}):`), translate);
 
 const keys = [];
 
