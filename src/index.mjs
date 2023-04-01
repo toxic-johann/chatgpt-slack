@@ -1,10 +1,9 @@
 // eslint-disable-next-line import/order
 import './utils/fetch-polyfill.mjs';
-import { autoUpdate } from './utils/auto-update.mjs';
 
 import pkg from '@slack/bolt';
 import os from 'os';
-
+import { autoUpdate } from './utils/auto-update.mjs';
 
 import {
   SLACK_APP_TOKEN, SLACK_BOT_TOKEN, SLACK_SIGNING_SECRET,
@@ -30,12 +29,10 @@ routesMap.set(/^SD:/i, stableDiffusion);
 
 const keys = [];
 
-const logWrapper = (fn) => {
-  return (data) => {
-    console.log(data.message);
-    fn(data);
-  };
-} 
+const logWrapper = (fn) => (data) => {
+  console.log(data.message);
+  fn(data);
+};
 
 routesMap.forEach((value, key) => {
   app.message(key, logWrapper(value));
@@ -43,7 +40,7 @@ routesMap.forEach((value, key) => {
 });
 
 const defaultRegExp = new RegExp(`^(?!(${keys.join('|')}))(.|\s)*$`, 'i');
-console.warn(defaultRegExp)
+console.warn(defaultRegExp);
 
 app.message(defaultRegExp, logWrapper(chat));
 
