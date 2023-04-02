@@ -2,6 +2,8 @@ import replicate from 'node-replicate';
 import { getThreadTs } from '../selectors/message.mjs';
 import chatgpt from '../utils/chatgpt.mjs';
 
+export const regexp = /^(draw|画|畫)/i;
+
 export default async ({ message, say }) => {
   console.log('transport message to prompt through chatgpt');
   const thread_ts = getThreadTs(message);

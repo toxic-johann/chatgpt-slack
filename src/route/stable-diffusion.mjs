@@ -1,9 +1,11 @@
 import replicate from 'node-replicate';
 import { getThreadTs } from '../selectors/message.mjs';
 
+export const regexp = /^SD:/i;
+
 export default async ({ message, say }) => {
   const thread_ts = getThreadTs(message);
-  const command = message.text.replace(/^SD:/i, '');
+  const command = message.text.replace(regexp, '');
   say({ text: `Your command is "${command}"`, thread_ts });
   const prediction = await replicate
     .model(

@@ -3,6 +3,8 @@ import ISO6391 from 'iso-639-1';
 import chatgpt from '../utils/chatgpt.mjs';
 import conversationCache from '../utils/conversation-cache.mjs';
 
+export const regexp = new RegExp(`^(${ISO6391.getAllCodes().join('|')}):`, 'i');
+
 export default async ({ message, say }) => {
   const [code, text] = message.text.split(':');
   const thread_ts = message.thread_ts || message.ts;

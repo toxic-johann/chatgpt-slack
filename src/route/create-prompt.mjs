@@ -2,6 +2,8 @@ import { getThreadTs } from '../selectors/message.mjs';
 import chatgpt from '../utils/chatgpt.mjs';
 import conversationCache from '../utils/conversation-cache.mjs';
 
+export const regexp = /^cp:/i;
+
 export default async ({ message, say }) => {
   const thread_ts = getThreadTs(message);
   const parentMessageId = conversationCache.get(thread_ts);
@@ -17,7 +19,7 @@ Questions:
 I will provide my answers to your response which you will then incorporate into your next response using the same format. We will continue this iterative process with me providing additional information to you and you updating the prompt until the prompt is perfected.
 Remember, the prompt we are creating should be written from the perspective of me making a request to ChatGPT. Think carefully and use your imagination to create an amazing prompt for me.
 My idea is the below one.
-${message.text.replace(/^cp:/i, '')}`, {
+${message.text.replace(regexp, '')}`, {
     parentMessageId,
   });
   conversationCache.set(thread_ts, res.id);

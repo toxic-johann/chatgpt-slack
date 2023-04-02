@@ -1,9 +1,9 @@
+import { getThreadTs } from '../selectors/message.mjs';
 import chatgpt from '../utils/chatgpt.mjs';
 import conversationCache from '../utils/conversation-cache.mjs';
 
 export default async ({ message, say }) => {
-  console.log('calling chatgpt');
-  const thread_ts = message.thread_ts || message.ts;
+  const thread_ts = getThreadTs(message);
   const parentMessageId = conversationCache.get(thread_ts);
   const res = await chatgpt.sendMessage(message.text, {
     parentMessageId,
