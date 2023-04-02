@@ -2,6 +2,7 @@ import { getThreadTs } from '../selectors/message.mjs';
 import chatgpt from '../utils/chatgpt.mjs';
 import timeConvert from '../utils/time-convert.mjs';
 import dayjs from 'dayjs';
+import { web } from '../utils/web-client.mjs';
 
 export const regexp = /^(r:|remind|提醒)/i;
 
@@ -37,7 +38,7 @@ export default async ({ message, say }) => {
       .add(minute, 'minute')
       .add(second, 'second');
     await say({ text: `Your current time is ${clientTime.format()}. I will remind you at ${estimateTime.format()}`, thread_ts });
-    say({
+    await web.chat.scheduleMessage({
       text: workString,
       thread_ts,
       post_at: estimateTime.unix(),
