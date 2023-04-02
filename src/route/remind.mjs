@@ -16,7 +16,7 @@ export default async ({ message, say }) => {
   The final output should be.
   Work: xxxx
   Time: xxxx
-  My message is “十点提醒我买菜“.
+  My message is “${message.text.replace(/^r:/i, '')}“.
   `);
   // say() sends a message to the channel where the event was triggered
   await say({ text: remindInfo.text, thread_ts });
@@ -24,7 +24,7 @@ export default async ({ message, say }) => {
   const workString = remindInfo.text.match(/Work: (.*)/i)[1];
   const {
     time,
-    duration
+    duration,
   } = await timeConvert(timeString);
   await say({ text: `Time: ${time}\nDuration: ${duration}\nWork: ${workString}`, thread_ts });
 };
