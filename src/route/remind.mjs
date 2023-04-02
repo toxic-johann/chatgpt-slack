@@ -47,7 +47,7 @@ export default async ({ message, say }) => {
       .add(minute, 'minute')
       .add(second, 'second');
   } else if (!/error/.test(time)) {
-    const methods = ['year', 'month', 'day', 'hour', 'minute', 'second'];
+    const methods = ['year', 'month', 'date', 'hour', 'minute', 'second'];
     estimateTime = time.split(/-|:| /).reduce((prevTime, value, index) => {
       if (!/\d+/.test(value)) return prevTime;
       const num = parseInt(value, 10);
