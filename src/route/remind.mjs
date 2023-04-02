@@ -25,6 +25,6 @@ export default async ({ message, say }) => {
   const {
     time,
     duration,
-  } = await timeConvert(timeString);
+  } = await timeConvert(timeString, (text) => say({ text, thread_ts }));
   await say({ text: `Time: ${time}\nDuration: ${duration}\nWork: ${workString}`, thread_ts });
 };
