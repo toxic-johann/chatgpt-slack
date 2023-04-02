@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone.js';
+import utc from 'dayjs/plugin/utc';
 
 import { getThreadTs } from '../selectors/message.mjs';
 import chatgpt from '../utils/chatgpt.mjs';
@@ -8,6 +9,7 @@ import { web } from '../utils/web-client.mjs';
 
 export const regexp = /^(r:|remind|提醒)/i;
 
+dayjs.extend(utc);
 dayjs.extend(timezone);
 
 export default async ({ message, say }) => {
