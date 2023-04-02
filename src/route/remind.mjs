@@ -41,12 +41,7 @@ export default async ({ message, say }) => {
       .add(second, 'second');
     await say({ text: `Your current time is ${clientTime.format()}. I will remind you at ${estimateTime.format()}`, thread_ts });
     try {
-      const { user: userId } = message;
-      const user = await web.users.info({
-        user: userId,
-        include_locale: true,
-      });
-      console.log(user.tz_offset);
+      console.log(estimateTime.unix());
       await web.chat.scheduleMessage({
         channel: CHATGPT_CHANNEL_ID,
         text: workString,
