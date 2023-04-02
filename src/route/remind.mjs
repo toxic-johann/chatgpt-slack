@@ -36,6 +36,6 @@ export default async ({ message, say }) => {
       .add(hour, 'hour')
       .add(minute, 'minute')
       .add(second, 'second');
-    await say({ text: `Your current time is ${clientTime.format()}. Your reminder is at ${estimateTime.format()}`});
+    await say({ text: `Your current time is ${clientTime.format()}. I will remind you at ${estimateTime.format()}`, thread_ts });
   }
 };
