@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone.js';
-import utc from 'dayjs/plugin/utc';
+import utc from 'dayjs/plugin/utc.js';
 
 import { getThreadTs } from '../selectors/message.mjs';
 import chatgpt from '../utils/chatgpt.mjs';
