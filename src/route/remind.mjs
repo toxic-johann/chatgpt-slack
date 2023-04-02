@@ -4,7 +4,6 @@ import { getThreadTs } from '../selectors/message.mjs';
 import chatgpt from '../utils/chatgpt.mjs';
 import timeConvert from '../utils/time-convert.mjs';
 import { web } from '../utils/web-client.mjs';
-import { CHATGPT_CHANNEL_ID } from '../config.mjs';
 
 export const regexp = /^(r:|remind|提醒)/i;
 
@@ -32,6 +31,8 @@ export default async ({ message, say }) => {
     duration,
   } = await timeConvert(timeString, (text) => say({ text, thread_ts }));
   await say({ text: `Time: ${time}\nDuration: ${duration}\nWork: ${workString}`, thread_ts });
+  const { user: userId } = message;
+  const { user: { tz } } = await web.users.info({ user: userId });
   if (/\d+-\d+:\d+:\d+/.test(duration)) {
     const [day, hour, minute, second] = duration.split(/-|:/);
     const estimateTime = clientTime
@@ -39,7 +40,7 @@ export default async ({ message, say }) => {
       .add(hour, 'hour')
       .add(minute, 'minute')
       .add(second, 'second');
-    await say({ text: `Your current time is ${clientTime.format()}. I will remind you at ${estimateTime.format()}`, thread_ts });
+    await say({ text: `Your current time is ${clientTime.tz(tz).format()}. I will remind you at ${estimateTime.tz(tz).format()}`, thread_ts });
     try {
       await web.chat.scheduleMessage({
         channel: message.channel,
@@ -50,5 +51,8 @@ export default async ({ message, say }) => {
     } catch (error) {
       console.error(error);
     }
+  } else if (!/error/.test(time)) {
+    // const [year, month, day, hour, minute, second] = time.split(/-|:| /);
+    // const localTime = clientTime.set
   }
 };
