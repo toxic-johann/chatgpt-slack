@@ -14,6 +14,7 @@ import stableDiffusion from './route/stable-diffusion.mjs';
 import draw from './route/draw.mjs';
 import chat from './route/chat.mjs';
 import translate from './route/translate.mjs';
+import midjourney from './route/midjourney.mjs';
 
 const { App } = pkg;
 
@@ -28,6 +29,7 @@ const routesMap = new Map();
 routesMap.set('git pull', () => autoUpdate(true, sendMessageToChannel));
 routesMap.set(/^(draw|画|畫)/i, draw);
 routesMap.set(/^SD:/i, stableDiffusion);
+routesMap.set(/^midjourney|mj:/i, midjourney);
 routesMap.set(new RegExp(`^(${ISO6391.getAllCodes().join('|')}):`, 'i'), translate);
 
 const keys = [];
