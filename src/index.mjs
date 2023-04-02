@@ -9,15 +9,15 @@ import {
   SLACK_APP_TOKEN, SLACK_BOT_TOKEN, SLACK_SIGNING_SECRET,
 } from './config.mjs';
 import { sendMessageToChannel } from './utils/web-client.mjs';
-import stableDiffusion, { regexp as stableDiffusionRegExp } from './route/stable-diffusion.mjs';
-import draw, { regexp as drawRegExp } from './route/draw.mjs';
+import stableDiffusion, { regExp as stableDiffusionRegExp } from './route/stable-diffusion.mjs';
+import draw, { regExp as drawRegExp } from './route/draw.mjs';
 import chat from './route/chat.mjs';
-import translate, { regexp as translateRegExp } from './route/translate.mjs';
-import midjourney, { regexp as midjourneyRegExp } from './route/midjourney.mjs';
+import translate, { regExp as translateRegExp } from './route/translate.mjs';
+import midjourney, { regExp as midjourneyRegExp } from './route/midjourney.mjs';
 import createPrompt,
-{ regexp as createPromptRegExp } from './route/create-prompt.mjs';
-import remind, { regexp as remindRegExp } from './route/remind.mjs';
-import artBook, { regexp as artBookRepExp } from './route/art-book.mjs';
+{ regExp as createPromptRegExp } from './route/create-prompt.mjs';
+import remind, { regExp as remindRegExp } from './route/remind.mjs';
+import artBook, { regExp as artBookRepExp } from './route/art-book.mjs';
 
 const { App } = pkg;
 
