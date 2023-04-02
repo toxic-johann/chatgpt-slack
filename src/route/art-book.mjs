@@ -4,7 +4,7 @@ import replicate from 'node-replicate';
 import { getThreadTs } from '../selectors/message.mjs';
 import chatgpt from '../utils/chatgpt.mjs';
 
-export const regExp = /^art-book/i;
+export const regExp = /^art-book:/i;
 
 export default async ({ message, say }) => {
   const thread_ts = getThreadTs(message);
