@@ -17,7 +17,7 @@ export default async ({ message, say }) => {
   4. Create an image description to visually represent each sentence of the article along with its corresponding color tone.
   The text is "${topic}"`);
   await say({ text: scriptResult.text, thread_ts });
-  const descriptionsString = scriptResult.text.match(/4.\s*Image\s*Descriptions:?\s*\n((.|\s)*)/i)[1];
+  const descriptionsString = scriptResult.text.match(/4.*\n((.|\s)*)/i)[1];
   const sentences = descriptionsString.split(/\n/);
   for (const sentence of sentences) {
     const prediction = await replicate
