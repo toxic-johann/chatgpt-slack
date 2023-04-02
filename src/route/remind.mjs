@@ -38,26 +38,30 @@ export default async ({ message, say }) => {
   await say({ text: `Time: ${time}\nDuration: ${duration}\nWork: ${workString}`, thread_ts });
   const { user: userId } = message;
   const { user: { tz } } = await web.users.info({ user: userId });
+  let estimateTime;
   if (/\d+-\d+:\d+:\d+/.test(duration)) {
     const [day, hour, minute, second] = duration.split(/-|:/);
-    const estimateTime = clientTime
+    estimateTime = clientTime
       .add(day, 'day')
       .add(hour, 'hour')
       .add(minute, 'minute')
       .add(second, 'second');
-    await say({ text: `Your current time is ${clientTime.tz(tz).format()}. I will remind you at ${estimateTime.tz(tz).format()}`, thread_ts });
-    try {
-      await web.chat.scheduleMessage({
-        channel: message.channel,
-        text: workString,
-        thread_ts,
-        post_at: estimateTime.unix(),
-      });
-    } catch (error) {
-      console.error(error);
-    }
   } else if (!/error/.test(time)) {
-    // const [year, month, day, hour, minute, second] = time.split(/-|:| /);
-    // const localTime = clientTime.set
+    const methods = ['year', 'month', 'day', 'hour', 'minute', 'second'];
+    estimateTime = time.split(/-|:| /).reduce((prevTime, value, index) => {
+      if (!/\d+/.test(value)) return prevTime;
+      return prevTime[methods[index]](parseInt(value, 10));
+    }, clientTime.tz(tz));
+  }
+  await say({ text: `Your current time is ${clientTime.tz(tz).format()}. I will remind you at ${estimateTime && estimateTime.tz(tz).format()}`, thread_ts });
+  try {
+    await web.chat.scheduleMessage({
+      channel: message.channel,
+      text: workString,
+      thread_ts,
+      post_at: estimateTime.utc().unix(),
+    });
+  } catch (error) {
+    console.error(error);
   }
 };
