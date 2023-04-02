@@ -44,7 +44,7 @@ routesMap.forEach((value, key) => {
   keys.push(key.toString().replace(/^\/\^/, '').replace(/\/i$/, ''));
 });
 
-const defaultRegExp = new RegExp(`^(?!(${keys.join('|')}))(.|\s)*$`, 'i');
+const defaultRegExp = new RegExp(`^(?!(${keys.join('|')}))(.|\\s)*$`, 'i');
 console.warn(defaultRegExp);
 
 app.message(defaultRegExp, logWrapper(chat));
