@@ -17,7 +17,7 @@ Questions:
 I will provide my answers to your response which you will then incorporate into your next response using the same format. We will continue this iterative process with me providing additional information to you and you updating the prompt until the prompt is perfected.
 Remember, the prompt we are creating should be written from the perspective of me making a request to ChatGPT. Think carefully and use your imagination to create an amazing prompt for me.
 My idea is the below one.
-${message.text}`, {
+${message.text.replace(/^cp:/i, '')}`, {
     parentMessageId,
   });
   conversationCache.set(thread_ts, res.id);
