@@ -50,12 +50,12 @@ export default async ({ message, say }) => {
     const methods = ['year', 'month', 'day', 'hour', 'minute', 'second'];
     estimateTime = time.split(/-|:| /).reduce((prevTime, value, index) => {
       if (!/\d+/.test(value)) return prevTime;
-      return prevTime[methods[index]](parseInt(value, 10));
+      const num = parseInt(value, 10);
+      return prevTime[methods[index]](index === 1 ? num - 1 : num);
     }, clientTime.tz(tz));
   }
   await say({ text: `Your current time is ${clientTime.tz(tz).format()}. I will remind you at ${estimateTime && estimateTime.tz(tz).format()}`, thread_ts });
   try {
-    console.log(estimateTime.utc().unix(), estimateTime.unix());
     await web.chat.scheduleMessage({
       channel: message.channel,
       text: workString,
