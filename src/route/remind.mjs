@@ -55,6 +55,7 @@ export default async ({ message, say }) => {
   }
   await say({ text: `Your current time is ${clientTime.tz(tz).format()}. I will remind you at ${estimateTime && estimateTime.tz(tz).format()}`, thread_ts });
   try {
+    console.log(estimateTime.utc().unix(), estimateTime.unix());
     await web.chat.scheduleMessage({
       channel: message.channel,
       text: workString,
