@@ -28,7 +28,7 @@ const app = new App({
 });
 
 const routesMap = new Map();
-routesMap.set('git pull', () => autoUpdate(true, sendMessageToChannel));
+routesMap.set('git pull', ({ message }) => autoUpdate(true, (text) => sendMessageToChannel(text, message.channel)));
 routesMap.set(drawRegExp, draw);
 routesMap.set(stableDiffusionRegExp, stableDiffusion);
 routesMap.set(midjourneyRegExp, midjourney);
