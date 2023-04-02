@@ -13,7 +13,7 @@ export default async (message, log) => {
   if (typeof log === 'function') {
     log(res.text);
   }
-  const time = res.text.match(/^Time: (.*)/i)[1];
-  const duration = res.text.match(/^duration: (.*)/i)[1];
+  const time = res.text.match(/Time: (.*)/i)[1];
+  const duration = res.text.match(/duration: (.*)/i)[1];
   return { time, duration };
 };
