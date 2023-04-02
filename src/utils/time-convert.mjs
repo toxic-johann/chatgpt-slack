@@ -6,6 +6,7 @@ export default async (message) => {
   duration: [DD-hh:mm:ss]
   Time: [YYYY-MM-DD hh:mm:ss]
   The offical input is ${message}`);
+  console.log(res.text);
   const time = res.text.match(/^Time: (.*)/i)[1];
   const duration = res.text.match(/^duration: (.*)/i)[1];
   return { time, duration };
