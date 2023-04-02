@@ -7,11 +7,11 @@ const replicate = new Replicate({
   auth: REPLICATE_API_TOKEN,
 });
 
-export const regexp = /^(midjourney|mj):/i;
+export const regExp = /^(midjourney|mj):/i;
 
 export default async ({ message, say }) => {
   const thread_ts = getThreadTs(message);
-  const command = message.text.replace(regexp, '');
+  const command = message.text.replace(regExp, '');
   say({ text: `Your command is "${command}"`, thread_ts });
   const startTime = performance.now();
   const output = await replicate.run(

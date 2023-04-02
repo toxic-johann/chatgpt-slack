@@ -17,6 +17,7 @@ import midjourney, { regexp as midjourneyRegExp } from './route/midjourney.mjs';
 import createPrompt,
 { regexp as createPromptRegExp } from './route/create-prompt.mjs';
 import remind, { regexp as remindRegExp } from './route/remind.mjs';
+import artBook, { regexp as artBookRepExp } from './route/art-book.mjs';
 
 const { App } = pkg;
 
@@ -35,6 +36,7 @@ routesMap.set(midjourneyRegExp, midjourney);
 routesMap.set(createPromptRegExp, createPrompt);
 routesMap.set(translateRegExp, translate);
 routesMap.set(remindRegExp, remind);
+routesMap.set(artBookRepExp, artBook);
 
 const keys = [];
 

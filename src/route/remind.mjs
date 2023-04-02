@@ -7,7 +7,7 @@ import chatgpt from '../utils/chatgpt.mjs';
 import timeConvert from '../utils/time-convert.mjs';
 import { web } from '../utils/web-client.mjs';
 
-export const regexp = /^(r:|remind|提醒)/i;
+export const regExp = /^(r:|remind|提醒)/i;
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
