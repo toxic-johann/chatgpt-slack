@@ -42,7 +42,7 @@ export default async ({ message, say }) => {
     await say({ text: `Your current time is ${clientTime.format()}. I will remind you at ${estimateTime.format()}`, thread_ts });
     try {
       await web.chat.scheduleMessage({
-        channel: message.user || CHATGPT_CHANNEL_ID,
+        channel: message.channel,
         text: workString,
         thread_ts,
         post_at: estimateTime.unix(),
