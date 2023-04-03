@@ -17,6 +17,7 @@ const route = selfReview({
   {ask any questions pertaining to what additional information is needed from me to improve the prompt (max of 1). If the prompt needs more clarification or details in certain areas, ask questions to get more information to include in the prompt}
   I will provide my answers to your response which you will then incorporate into your next response using the same format. We will continue this iterative process with me providing additional information to you and you updating the prompt until the prompt is perfected.
   Remember, the prompt we are creating should be written from the perspective of me making a request to ChatGPT. Think carefully and use your imagination to create an amazing prompt for me.`,
+  inputName: 'idea',
 });
 
 export default route;

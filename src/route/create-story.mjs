@@ -16,6 +16,7 @@ Critique:
 Questions:
 {ask any questions pertaining to what additional information is needed from me to improve the story (max of 1). }
 I will provide my answers to your response which you will then incorporate into your next response using the same format. We will continue this iterative process with me providing additional information to you and you updating the story until the story is perfected.`,
+  inputName: 'story',
 });
 
 export default route;
