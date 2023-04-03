@@ -19,6 +19,7 @@ import createStory, { regExp as createStoryRegExp } from './route/create-story.m
 import createUnitTest, { regExp as createUnitTestRegExp } from './route/create-unit-test.mjs';
 import remind, { regExp as remindRegExp } from './route/remind.mjs';
 import artBook, { regExp as artBookRepExp } from './route/art-book.mjs';
+import image, { regExp as imageRegExp } from './route/image.mjs';
 
 const { App } = pkg;
 
@@ -40,6 +41,7 @@ routesMap.set(remindRegExp, remind);
 routesMap.set(artBookRepExp, artBook);
 routesMap.set(createStoryRegExp, createStory);
 routesMap.set(createUnitTestRegExp, createUnitTest);
+routesMap.set(imageRegExp, image);
 
 const keys = [];
 
