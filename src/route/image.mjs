@@ -18,6 +18,7 @@ export default async ({ message, say }) => {
     n: 1,
     size,
   });
+  console.warn(response);
   const text = response.error
     ? response.error.message
     : response.data[0].url;
