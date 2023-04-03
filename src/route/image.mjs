@@ -20,8 +20,8 @@ export default async ({ message, say }) => {
   });
   console.warn(response);
   const text = response.error
-    ? response.error.message
-    : response.data[0].url;
+    ? response.data.error.message
+    : response.data.data[0].url;
   // say() sends a message to the channel where the event was triggered
   await say({ text, thread_ts });
 };
