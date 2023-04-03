@@ -14,8 +14,8 @@ import draw, { regExp as drawRegExp } from './route/draw.mjs';
 import chat from './route/chat.mjs';
 import translate, { regExp as translateRegExp } from './route/translate.mjs';
 import midjourney, { regExp as midjourneyRegExp } from './route/midjourney.mjs';
-import createPrompt,
-{ regExp as createPromptRegExp } from './route/create-prompt.mjs';
+import createPrompt, { regExp as createPromptRegExp } from './route/create-prompt.mjs';
+import createStory, { regExp as createStoryRegExp } from './route/create-story.mjs';
 import remind, { regExp as remindRegExp } from './route/remind.mjs';
 import artBook, { regExp as artBookRepExp } from './route/art-book.mjs';
 
@@ -37,6 +37,7 @@ routesMap.set(createPromptRegExp, createPrompt);
 routesMap.set(translateRegExp, translate);
 routesMap.set(remindRegExp, remind);
 routesMap.set(artBookRepExp, artBook);
+routesMap.set(createStoryRegExp, createStory);
 
 const keys = [];
 
