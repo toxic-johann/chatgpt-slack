@@ -6,7 +6,7 @@ export const regExp = new RegExp(`^cp(-(${ISO6391.getAllCodes().join('|')}))?:`,
 
 const route = selfReview({
   regExp,
-  text: `
+  template: `
   I want you to become my Expert Prompt Creator. Your goal is to help me craft the best possible prompt for my needs. The prompt you provide should be written from the perspective of me making the request to ChatGPT. Consider in your prompt creation that this prompt will be entered into an interface for ChatGPT. The process is as follows:
   You will generate the following sections:
   Prompt:
