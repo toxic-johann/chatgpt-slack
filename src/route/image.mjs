@@ -7,7 +7,7 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-export const regExp = /^oi(-(\d+x\d+)):/i;
+export const regExp = /^oi(-(\d+x\d+))?:/i;
 
 export default async ({ message, say }) => {
   const size = message.text.match(regExp)[2] || '256x256';
