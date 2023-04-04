@@ -21,6 +21,8 @@ import remind, { regExp as remindRegExp } from './route/remind.mjs';
 import artBook, { regExp as artBookRepExp } from './route/art-book.mjs';
 import image, { regExp as imageRegExp } from './route/image.mjs';
 
+import './task/check-convertible-bond.mjs';
+
 const { App } = pkg;
 
 const app = new App({
