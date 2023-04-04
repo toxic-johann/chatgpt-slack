@@ -13,6 +13,7 @@ export default ({
   const languageRequirement = typeof getLanguageRequirement === 'function'
     ? getLanguageRequirement(text)
     : message.text.match(regExp)[2];
+  console.log(template || getTemplate(text));
   const res = await chatgpt.sendMessage(`
 ${template || getTemplate(text)}
 ${languageRequirement ? `Please respond me in ${ISO6391.getName(languageRequirement)}` : ''}
