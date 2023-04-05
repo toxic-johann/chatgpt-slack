@@ -21,6 +21,7 @@ import remind, { regExp as remindRegExp } from './route/remind.mjs';
 import artBook, { regExp as artBookRepExp } from './route/art-book.mjs';
 import image, { regExp as imageRegExp } from './route/image.mjs';
 import debug, { regExp as debugRegExp } from './route/debug.mjs';
+import expert, { regExp as expertRegExp } from './route/expert.mjs';
 
 import './task/check-convertible-bond.mjs';
 
@@ -46,6 +47,7 @@ routesMap.set(createStoryRegExp, createStory);
 routesMap.set(createUnitTestRegExp, createUnitTest);
 routesMap.set(imageRegExp, image);
 routesMap.set(debugRegExp, debug);
+routesMap.set(expertRegExp, expert);
 
 const keys = [];
 
