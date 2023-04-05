@@ -3,6 +3,7 @@ import timezone from 'dayjs/plugin/timezone.js';
 import utc from 'dayjs/plugin/utc.js';
 import { CronJob } from 'cron';
 import { sendMessageToChannel } from '../utils/web-client.mjs';
+import { CONVERTIBLE_LISTENER } from '../config.mjs';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -17,7 +18,7 @@ async function main() {
       sendMessageToChannel('今日无可转债信息更新');
       return;
     }
-    sendMessageToChannel(`今日可转债信息更新：${result.map(({ SECURITY_NAME_ABBR }) => SECURITY_NAME_ABBR).join('、')}`);
+    sendMessageToChannel(`<@${CONVERTIBLE_LISTENER.join('>,<@')}> 今日可转债信息更新：${result.map(({ SECURITY_NAME_ABBR }) => SECURITY_NAME_ABBR).join('、')}`);
   } catch (error) {
     sendMessageToChannel('可转债信息更新失败');
   }
