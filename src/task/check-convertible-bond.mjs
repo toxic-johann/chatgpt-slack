@@ -13,7 +13,10 @@ async function main() {
     const json = await response.json();
     const currentDate = dayjs().tz('asia/shanghai').format('YYYY-MM-DD');
     const result = json.result.data.filter(({ VALUE_DATE }) => VALUE_DATE.includes(currentDate));
-    if (!result.length) sendMessageToChannel('今日无可转债信息更新');
+    if (!result.length) {
+      sendMessageToChannel('今日无可转债信息更新');
+      return;
+    }
     sendMessageToChannel(`今日可转债信息更新：${result.map(({ SECURITY_NAME_ABBR }) => SECURITY_NAME_ABBR).join('、')}`);
   } catch (error) {
     sendMessageToChannel('可转债信息更新失败');
