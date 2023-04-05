@@ -13,12 +13,13 @@ export default ({
   const languageRequirement = typeof getLanguageRequirement === 'function'
     ? getLanguageRequirement(text)
     : message.text.match(regExp)[2];
-  console.warn(template || getTemplate(text));
-  const res = await chatgpt.sendMessage(`
-${template || getTemplate(text)}
-${languageRequirement ? `Please respond me in ${ISO6391.getName(languageRequirement)}` : ''}
-My ${inputName} is the below one.
-${message.text.replace(regExp, '')}`, {
+  const description = `
+  ${template || getTemplate(text)}
+  ${languageRequirement ? `Please respond me in ${ISO6391.getName(languageRequirement)}` : ''}
+  My ${inputName} is the below one.
+  ${message.text.replace(regExp, '')}`;
+  console.log(description);
+  const res = await chatgpt.sendMessage(description, {
     parentMessageId,
   });
   conversationCache.set(thread_ts, res.id);
