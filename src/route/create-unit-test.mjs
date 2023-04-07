@@ -4,7 +4,9 @@ import selfReview from '../template/self-review.mjs';
 
 export const regExp = new RegExp(`^cut(-(${ISO6391.getAllCodes().join('|')}))?:`, 'i');
 
-const route = selfReview({
+export const introduction = 'cut: The prompt message is a request for help in creating unit tests for a function.';
+
+export const route = selfReview({
   regExp,
   template: `
 I want you to become an expert software engineer. Your goal is to help me craft unit tests for a certain function. The test case should be solid and have full code coverage. The process is as follows:
@@ -18,5 +20,3 @@ Questions:
 I will provide my answers to your response which you will then incorporate into your next response using the same format. We will continue this iterative process with me providing additional information to you and you updating the story until unit tests is perfected.`,
   inputName: 'code',
 });
-
-export default route;

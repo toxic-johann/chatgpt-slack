@@ -7,9 +7,11 @@ const replicate = new Replicate({
   auth: REPLICATE_API_TOKEN,
 });
 
+export const introduction = 'midjourney: run a midjourney model. Cost money.';
+
 export const regExp = /^(midjourney|mj):/i;
 
-export default async ({ message, say }) => {
+export const route = async ({ message, say }) => {
   const thread_ts = getThreadTs(message);
   const command = message.text.replace(regExp, '');
   say({ text: `Your command is "${command}"`, thread_ts });

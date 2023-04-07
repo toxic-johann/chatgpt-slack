@@ -5,7 +5,9 @@ import conversationCache from '../utils/conversation-cache.mjs';
 
 export const regExp = new RegExp(`^(${ISO6391.getAllCodes().join('|')}):`, 'i');
 
-export default async ({ message, say }) => {
+export const introduction = 'en|fr|zh|...: The prompt message is a request for help in translating a message.';
+
+export const route = async ({ message, say }) => {
   const [code, text] = message.text.split(':');
   const thread_ts = message.thread_ts || message.ts;
   const parentMessageId = conversationCache.get(thread_ts);

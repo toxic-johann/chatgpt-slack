@@ -4,9 +4,11 @@ import replicate from 'node-replicate';
 import { getThreadTs } from '../selectors/message.mjs';
 import chatgpt from '../utils/chatgpt.mjs';
 
+export const introduction = 'art-book: The prompt message is a request for help in transforming a piece of text into a set of images.';
+
 export const regExp = /^art-book:/i;
 
-export default async ({ message, say }) => {
+export const route = async ({ message, say }) => {
   const thread_ts = getThreadTs(message);
   const topic = message.text.replace(regExp, '');
   await say({ text: `Your topic: ${topic}`, thread_ts });

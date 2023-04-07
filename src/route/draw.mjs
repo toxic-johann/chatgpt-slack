@@ -4,7 +4,9 @@ import chatgpt from '../utils/chatgpt.mjs';
 
 export const regExp = /^(draw|画|畫)/i;
 
-export default async ({ message, say }) => {
+export const introduction = 'draw: draw image with stable diffusion and with prompt improvement. Free~~';
+
+export const route = async ({ message, say }) => {
   console.log('transport message to prompt through chatgpt');
   const thread_ts = getThreadTs(message);
   await say({ text: `Original text: ${message.text}`, thread_ts });

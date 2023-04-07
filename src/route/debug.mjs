@@ -4,7 +4,9 @@ import selfReview from '../template/self-review.mjs';
 
 export const regExp = new RegExp(`^debug(-([^-]+))?(-(${ISO6391.getAllCodes().join('|')}))?:`, 'i');
 
-const route = selfReview({
+export const introduction = 'debug: The prompt message is a request for help in debugging a program.';
+
+export const route = selfReview({
   regExp,
   getTemplate: (text) => {
     const [, , programLanguage] = text.match(regExp);
@@ -25,5 +27,3 @@ The process is as follows:
   getLanguageRequirement: (text) => text.match(regExp)[4],
   inputName: 'issue',
 });
-
-export default route;

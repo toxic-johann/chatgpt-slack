@@ -4,7 +4,9 @@ import selfReview from '../template/self-review.mjs';
 
 export const regExp = new RegExp(`^expert(-([^-]+))?(-(${ISO6391.getAllCodes().join('|')}))?:`, 'i');
 
-const route = selfReview({
+export const introduction = 'expert: The prompt message is a request for help in becoming an expert in a certain area.';
+
+export const route = selfReview({
   regExp,
   getTemplate: (text) => {
     const [, , character = ''] = text.match(regExp);
@@ -23,5 +25,3 @@ I will provide my answers to your response which you will then incorporate into 
   getLanguageRequirement: (text) => text.match(regExp)[4],
   inputName: 'issue',
 });
-
-export default route;

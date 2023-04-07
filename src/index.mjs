@@ -9,21 +9,22 @@ import {
   SLACK_APP_TOKEN, SLACK_BOT_TOKEN, SLACK_SIGNING_SECRET,
 } from './config.mjs';
 import { sendMessageToChannel } from './utils/web-client.mjs';
-import stableDiffusion, { regExp as stableDiffusionRegExp } from './route/stable-diffusion.mjs';
-import draw, { regExp as drawRegExp } from './route/draw.mjs';
-import chat from './route/chat.mjs';
-import translate, { regExp as translateRegExp } from './route/translate.mjs';
-import midjourney, { regExp as midjourneyRegExp } from './route/midjourney.mjs';
-import createPrompt, { regExp as createPromptRegExp } from './route/create-prompt.mjs';
-import createStory, { regExp as createStoryRegExp } from './route/create-story.mjs';
-import createUnitTest, { regExp as createUnitTestRegExp } from './route/create-unit-test.mjs';
-import remind, { regExp as remindRegExp } from './route/remind.mjs';
-import artBook, { regExp as artBookRepExp } from './route/art-book.mjs';
-import image, { regExp as imageRegExp } from './route/image.mjs';
-import debug, { regExp as debugRegExp } from './route/debug.mjs';
-import expert, { regExp as expertRegExp } from './route/expert.mjs';
+import * as stableDiffusion from './route/stable-diffusion.mjs';
+import * as draw from './route/draw.mjs';
+import * as chat from './route/chat.mjs';
+import * as translate from './route/translate.mjs';
+import * as midjourney from './route/midjourney.mjs';
+import * as createPrompt from './route/create-prompt.mjs';
+import * as createStory from './route/create-story.mjs';
+import * as createUnitTest from './route/create-unit-test.mjs';
+import * as remind from './route/remind.mjs';
+import * as artBook from './route/art-book.mjs';
+import * as image from './route/image.mjs';
+import * as debug from './route/debug.mjs';
+import * as expert from './route/expert.mjs';
 
 import './task/check-convertible-bond.mjs';
+import { getThreadTs } from './selectors/message.mjs';
 
 const { App } = pkg;
 
@@ -35,36 +36,48 @@ const app = new App({
 });
 
 const routesMap = new Map();
-routesMap.set('git pull', ({ message }) => autoUpdate(true, (text) => sendMessageToChannel(text, message.channel)));
-routesMap.set(drawRegExp, draw);
-routesMap.set(stableDiffusionRegExp, stableDiffusion);
-routesMap.set(midjourneyRegExp, midjourney);
-routesMap.set(createPromptRegExp, createPrompt);
-routesMap.set(translateRegExp, translate);
-routesMap.set(remindRegExp, remind);
-routesMap.set(artBookRepExp, artBook);
-routesMap.set(createStoryRegExp, createStory);
-routesMap.set(createUnitTestRegExp, createUnitTest);
-routesMap.set(imageRegExp, image);
-routesMap.set(debugRegExp, debug);
-routesMap.set(expertRegExp, expert);
+routesMap.set('git pull', {
+  route: ({ message }) => autoUpdate(true, (text) => sendMessageToChannel(text, message.channel)),
+});
+routesMap.set(draw.regExp, draw);
+routesMap.set(stableDiffusion.regExp, stableDiffusion);
+routesMap.set(midjourney.regExp, midjourney);
+routesMap.set(createPrompt.regExp, createPrompt);
+routesMap.set(translate.regExp, translate);
+routesMap.set(remind.regExp, remind);
+routesMap.set(artBook.regExp, artBook);
+routesMap.set(createStory.regExp, createStory);
+routesMap.set(createUnitTest.regExp, createUnitTest);
+routesMap.set(image.regExp, image);
+routesMap.set(debug.regExp, debug);
+routesMap.set(expert.regExp, expert);
 
 const keys = [];
+const introductions = [];
 
 const logWrapper = (fn) => (data) => {
   console.log(data.message);
   fn(data);
 };
 
-routesMap.forEach((value, key) => {
-  app.message(key, logWrapper(value));
+routesMap.forEach((module, key) => {
+  app.message(key, logWrapper(module.route));
   keys.push(key.toString().replace(/^\/\^/, '').replace(/\/i$/, ''));
+  if (module.introduction) {
+    introductions.push(module.introduction);
+  }
 });
+
+app.message('man', logWrapper(async ({ message, say }) => {
+  const introduction = introductions.join('\n');
+  say({ text: introduction, thread_ts: getThreadTs(message) });
+}));
+keys.push('man$');
 
 const defaultRegExp = new RegExp(`^(?!(${keys.join('|')}))(.|\\s)*$`, 'i');
 console.warn(defaultRegExp);
 
-app.message(defaultRegExp, logWrapper(chat));
+app.message(defaultRegExp, logWrapper(chat.route));
 
 (async () => {
   // Start the app

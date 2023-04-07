@@ -12,7 +12,9 @@ export const regExp = /^(r:|remind|提醒)/i;
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-export default async ({ message, say }) => {
+export const introduction = 'remind: remind me to do something at a specific time.';
+
+export const route = async ({ message, say }) => {
   const thread_ts = getThreadTs(message);
   const clientTime = dayjs.unix(message.ts);
   const remindInfo = await chatgpt.sendMessage(`

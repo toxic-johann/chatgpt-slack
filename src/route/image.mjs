@@ -7,9 +7,11 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
+export const introduction = 'oi: open api image generator, not free. oi: generate a random image. oi-256x256: generate a random image with size 256x256.';
+
 export const regExp = /^oi(-(\d+x\d+))?:/i;
 
-export default async ({ message, say }) => {
+export const route = async ({ message, say }) => {
   const size = message.text.match(regExp)[2] || '256x256';
   const command = message.text.replace(regExp, '').trim();
   const thread_ts = getThreadTs(message);

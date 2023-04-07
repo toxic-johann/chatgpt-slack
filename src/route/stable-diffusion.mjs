@@ -3,7 +3,9 @@ import { getThreadTs } from '../selectors/message.mjs';
 
 export const regExp = /^SD:/i;
 
-export default async ({ message, say }) => {
+export const introduction = 'SD: run a stable diffusion model. Free~~';
+
+export const route = async ({ message, say }) => {
   const thread_ts = getThreadTs(message);
   const command = message.text.replace(regExp, '');
   say({ text: `Your command is "${command}"`, thread_ts });

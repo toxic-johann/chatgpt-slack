@@ -4,7 +4,9 @@ import selfReview from '../template/self-review.mjs';
 
 export const regExp = new RegExp(`^cp(-(${ISO6391.getAllCodes().join('|')}))?:`, 'i');
 
-const route = selfReview({
+export const introduction = 'cp: The prompt message is a request for help in creating a prompt for ChatGPT.';
+
+export const route = selfReview({
   regExp,
   template: `
   I want you to become my Expert Prompt Creator. Your goal is to help me craft the best possible prompt for my needs. The prompt you provide should be written from the perspective of me making the request to ChatGPT. Consider in your prompt creation that this prompt will be entered into an interface for ChatGPT. The process is as follows:
@@ -19,5 +21,3 @@ const route = selfReview({
   Remember, the prompt we are creating should be written from the perspective of me making a request to ChatGPT. Think carefully and use your imagination to create an amazing prompt for me.`,
   inputName: 'idea',
 });
-
-export default route;
