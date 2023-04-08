@@ -68,7 +68,7 @@ routesMap.forEach((module, key) => {
   }
 });
 
-app.message('man', logWrapper(async ({ message, say }) => {
+app.message(/^man$/, logWrapper(async ({ message, say }) => {
   const introduction = introductions.join('\n');
   say({ text: introduction, thread_ts: getThreadTs(message) });
 }));
