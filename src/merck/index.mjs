@@ -29,54 +29,35 @@ const client = new Client({
 async function run() {
   const dir = path.resolve(__dirname, '../../../MSDZHConsumerMedicalTopics');
   const files = fs.readdirSync(dir).filter((p) => p.endsWith('}.html'));
-  const response = await client.deleteByQuery({
-    index: 'merk-zh',
-    body: {
-      query: {
-        match_all: {},
-      },
-    },
-  });
-  console.log(response);
-  // const promises = files.map(async (fileName, index) => {
-  //   const filePath = path.resolve(dir, fileName);
-  //   const html = fs.readFileSync(filePath, 'utf8');
-  //   console.warn(filePath, index);
-  //   const match = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i);
-  //   if (!match) return;
-  //   const title = html.match(/<title\b[^>]*>(.*?)<\/title>/i)[1];
-  //   const content = match[0];
-  //   const markdown = turndownService.turndown(content);
-  //   await client.index({
-  //     index: 'merk-zh',
-  //     document: {
-  //       title,
-  //       content: markdown,
+  // const response = await client.deleteByQuery({
+  //   index: 'merk-zh',
+  //   body: {
+  //     query: {
+  //       match_all: {},
   //     },
-  //   });
-  // });
-
-  // await Promise.all(promises);
-
-  // console.warn(title, markdown);
-
-  // Let's start by indexing some data
-
-  // await client.index({
-  //   index: 'game-of-thrones',
-  //   document: {
-  //     character: 'Daenerys Targaryen',
-  //     quote: 'I am the blood of the dragon.',
   //   },
   // });
+  // console.log(response);
+  const promises = files.map(async (fileName, index) => {
+    const filePath = path.resolve(dir, fileName);
+    const html = fs.readFileSync(filePath, 'utf8');
+    console.warn(filePath, index);
+    const match = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i);
+    if (!match) return;
+    const title = html.match(/<title\b[^>]*>(.*?)<\/title>/i)[1];
+    const content = match[0];
+    const markdown = turndownService.turndown(content);
+    await client.index({
+      index: 'merk-zh',
+      id: fileName,
+      document: {
+        title,
+        content: markdown,
+      },
+    });
+  });
 
-  // await client.index({
-  //   index: 'game-of-thrones',
-  //   document: {
-  //     character: 'Tyrion Lannister',
-  //     quote: 'A mind needs books like a sword needs a whetstone.',
-  //   },
-  // });
+  await Promise.all(promises);
 
   // here we are forcing an index refresh, otherwise we will not
   // get any result in the consequent search
