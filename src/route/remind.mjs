@@ -55,7 +55,7 @@ export const route = async ({ message, say }) => {
       const num = parseInt(value, 10);
       return prevTime[methods[index]](index === 1 ? num - 1 : num);
     }, clientTime.tz(tz));
-    const currentTime = dayjs();
+    const currentTime = dayjs().tz(tz);
     if (currentTime.isAfter(estimateTime)) {
       estimateTime = methods.reduce((prevTime, method) => {
         if (estimateTime.isAfter(currentTime)) return prevTime;
