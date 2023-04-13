@@ -55,6 +55,15 @@ export const route = async ({ message, say }) => {
       const num = parseInt(value, 10);
       return prevTime[methods[index]](index === 1 ? num - 1 : num);
     }, clientTime.tz(tz));
+    const currentTime = dayjs();
+    if (currentTime.isAfter(estimateTime)) {
+      estimateTime = methods.reduce((prevTime, method) => {
+        if (estimateTime.isAfter(currentTime)) return prevTime;
+        if (estimateTime.isSame(currentTime, method)) return prevTime;
+        prevTime[method](currentTime[method]());
+        return prevTime;
+      }, estimateTime);
+    }
   }
   await say({ text: `Your current time is ${clientTime.tz(tz).format()}. I will remind you at ${estimateTime && estimateTime.tz(tz).format()}`, thread_ts });
   try {
