@@ -6,7 +6,6 @@ import { getThreadTs } from '../selectors/message.mjs';
 import chatgpt from '../utils/chatgpt.mjs';
 import timeConvert from '../utils/time-convert.mjs';
 import { web } from '../utils/web-client.mjs';
-import { chatCompletion } from '../utils/openai.mjs';
 
 export const regExp = /^(r:|remind|提醒)/i;
 
@@ -18,7 +17,7 @@ export const introduction = 'remind: remind me to do something at a specific tim
 export const route = async ({ message, say }) => {
   const thread_ts = getThreadTs(message);
   const clientTime = dayjs.unix(message.ts);
-  const remindInfo = await chatCompletion(`
+  const remindInfo = await chatgpt.sendMessage(`
   I want to extract information from the reminder message. This kind of message usually includes two pieces of information. One is the time message. The other one is the work that I need to do at that time.
   For example, Remind me to buy tickets at 5 pm should split into these two parts.
   Work: Buy tickets
@@ -29,9 +28,7 @@ export const route = async ({ message, say }) => {
   Work: xxxx
   Time: xxxx
   My message is “${message.text.replace(/^r:/i, '')}“.
-  `, {
-    template: 0,
-  });
+  `);
   // say() sends a message to the channel where the event was triggered
   await say({ text: remindInfo.text, thread_ts });
   const timeString = remindInfo.text.match(/Time: (.*)/i)[1];
