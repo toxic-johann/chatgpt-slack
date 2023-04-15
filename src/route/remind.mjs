@@ -33,9 +33,9 @@ export const route = async ({ message, say }) => {
     temperature: 0,
   });
   // say() sends a message to the channel where the event was triggered
-  await say({ text: remindInfo.text, thread_ts });
-  const timeString = remindInfo.text.match(/Time: (.*)/i)[1];
-  const workString = remindInfo.text.match(/Work: (.*)/i)[1];
+  await say({ text: remindInfo, thread_ts });
+  const timeString = remindInfo.match(/Time: (.*)/i)[1];
+  const workString = remindInfo.match(/Work: (.*)/i)[1];
   const {
     time,
     duration,
