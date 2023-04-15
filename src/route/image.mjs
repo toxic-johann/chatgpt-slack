@@ -1,11 +1,5 @@
-import { Configuration, OpenAIApi } from 'openai';
-import { OPENAI_API_KEY } from '../config.mjs';
 import { getThreadTs } from '../selectors/message.mjs';
-
-const configuration = new Configuration({
-  apiKey: OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
+import openai from '../utils/openai.mjs';
 
 export const introduction = 'oi: open api image generator, not free. oi: generate a random image. oi-256x256: generate a random image with size 256x256.';
 
