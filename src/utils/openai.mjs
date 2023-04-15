@@ -13,7 +13,7 @@ export async function chatCompletion(content, option = {}) {
     messages: [{ role: 'user', content }],
     ...option,
   });
-  console.log(completion);
+  console.log(completion.data);
   return completion.data.choices[0].message.content;
 }
 
