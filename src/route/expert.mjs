@@ -20,6 +20,8 @@ export const route = selfReview({
     {provide the best answer according to my requirement}
     Critique:
     {provide a concise paragraph on how to improve the answer. Be very critical in your response}
+    Search keyword:
+    {provide some valid search keywords so that I can google by myself, and respond them in this format https://www.google.com/search?q=xxx,xxx }
     Questions:
     {ask any questions pertaining to what additional information is needed from me to improve the answer (max of 1). If the issue needs more clarification or details in certain areas, ask questions to get more information to include in the answer. If you have no other question, does the meet your requirement?}
     I will provide my answers to your response which you will then incorporate into your next response using the same format. We will continue this iterative process with me providing additional information to you and you updating the solution until the answer is perfected. Think carefully and use your imagination to create a useful answer for me.`;
