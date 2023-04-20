@@ -18,5 +18,5 @@ export const route = async ({ message, say }) => {
   const prediction = await replicate.run(model, input);
   console.log(prediction);
   // say() sends a message to the channel where the event was triggered
-  await say({ text: prediction.output[0], thread_ts });
+  await say({ text: prediction[0], thread_ts });
 };
