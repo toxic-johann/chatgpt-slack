@@ -24,6 +24,7 @@ import * as debug from './route/debug.mjs';
 import * as expert from './route/expert.mjs';
 
 import './task/check-convertible-bond.mjs';
+import './task/today-weather.mjs';
 import { getThreadTs } from './selectors/message.mjs';
 
 const { App } = pkg;
