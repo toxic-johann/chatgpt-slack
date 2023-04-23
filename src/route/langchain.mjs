@@ -70,9 +70,9 @@ const getExecutor = async () => {
   return _executor;
 };
 
-export const regExp = /^ls:/i;
+export const regExp = /^lc:/i;
 
-export const introduction = 'ls: use lang chain for help.';
+export const introduction = 'lc: use lang chain for help.';
 
 export const route = async ({ message, say }) => {
   const thread_ts = getThreadTs(message);
