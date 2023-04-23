@@ -18,5 +18,6 @@ module.exports = {
     'no-promise-executor-return': 'off',
     'import/prefer-default-export': 'off',
     'import/extensions': 'off',
+    'no-plusplus': 'off',
   },
 };
