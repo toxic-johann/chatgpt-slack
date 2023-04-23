@@ -22,6 +22,7 @@ import * as artBook from './route/art-book.mjs';
 import * as image from './route/image.mjs';
 import * as debug from './route/debug.mjs';
 import * as expert from './route/expert.mjs';
+import * as langchain from './route/langchain.mjs';
 
 import './task/check-convertible-bond.mjs';
 import './task/today-weather.mjs';
@@ -52,6 +53,7 @@ routesMap.set(createUnitTest.regExp, createUnitTest);
 routesMap.set(image.regExp, image);
 routesMap.set(debug.regExp, debug);
 routesMap.set(expert.regExp, expert);
+routesMap.set(langchain.regExp, langchain);
 
 const keys = [];
 const introductions = [];
