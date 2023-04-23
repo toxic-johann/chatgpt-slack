@@ -1,3 +1,6 @@
+// // eslint-disable-next-line import/order
+// import '../utils/fetch-polyfill.mjs';
+
 /* eslint-disable import/no-extraneous-dependencies */
 import { OpenAI } from 'langchain/llms/openai';
 import { initializeAgentExecutorWithOptions } from 'langchain/agents';
@@ -76,7 +79,7 @@ export const introduction = 'lc: use lang chain for help.';
 
 export const route = async ({ message, say }) => {
   const thread_ts = getThreadTs(message);
-  const executor = getExecutor();
+  const executor = await getExecutor();
   const result = await executor.call({ input: message.text.replace(regExp, '') }, [{
     getSlackInput() {
       return { message, say };
