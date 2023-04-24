@@ -54,6 +54,8 @@ const tools = [
       'call this when the user want to setup a reminder, the input should be the original message',
     func: async (text, runManager) => {
       const slackInput = getSlackInputFromRunManager(runManager);
+      const thread_ts = getThreadTs(slackInput.message);
+      slackInput.say({ text: `remind action: ${text}`, thread_ts });
       await remindRoute(slackInput);
       return 'Done';
     },
