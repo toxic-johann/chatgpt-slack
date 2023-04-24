@@ -8,6 +8,7 @@ import { DynamicTool } from 'langchain/tools';
 import { OPENAI_API_KEY } from '../config.mjs';
 import { getThreadTs } from '../selectors/message.mjs';
 import { route as remindRoute } from './remind.mjs';
+import timeConvert from '../utils/time-convert.mjs';
 
 const model = new OpenAI({
   openAIApiKey: OPENAI_API_KEY,
@@ -39,15 +40,16 @@ function getSlackInputFromRunManager(runManager) {
   return undefined;
 }
 const tools = [
-  // new DynamicTool({
-  //   name: 'weather',
-  //   description:
-  //     'call this when the user want to know the weather of somewhere, the input should be a string contains the time and english name of the position.',
-  //   func: (input, runManager) => {
-  //     console.warn(input);
-  //     return 'done';
-  //   },
-  // }),
+  new DynamicTool({
+    name: 'weather',
+    description: 'call this when the user want to know the weather of somewhere, the input should be this format: time string|english name of the position',
+    func: (input, runManager) => {
+      const [timeString, position] = input.split('|');
+      const { time, duration } = timeConvert(timeString);
+      console.warn(input, '!!');
+      return 'done';
+    },
+  }),
   new DynamicTool({
     name: 'reminder',
     description:
@@ -90,21 +92,21 @@ export const route = async ({ message, say }) => {
   await say({ text: result.output, thread_ts });
 };
 
-// export const run = async (input) => {
-//   const executor = await getExecutor();
+export const run = async (input) => {
+  const executor = await getExecutor();
 
-//   console.log('Loaded agent.');
+  console.log('Loaded agent.');
 
-//   // const input = 'Remind me to me to send the mail at 8am tomorrow';
+  // const input = 'Remind me to me to send the mail at 8am tomorrow';
 
-//   console.log(`Executing with input "${input}"...`);
+  console.log(`Executing with input "${input}"...`);
 
-//   const result = await executor.call({ input }, [{
-//     getMessage: () => {},
-//   }]);
+  const result = await executor.call({ input }, [{
+    getMessage: () => {},
+  }]);
 
-//   console.log(`Got output ${result.output}`);
-// };
+  console.log(`Got output ${result.output}`);
+};
 
-// run('秦皇岛 3.14 天气如何？');
+run('秦皇岛前天天气如何？');
 // run('Remind me to me to send the mail at 7am tomorrow');
