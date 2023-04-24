@@ -5,7 +5,7 @@ import { CONVERTIBLE_LISTENER, weatherListnerMap } from '../config.mjs';
 import { forecast } from '../utils/weather-api.mjs';
 import { chatCompletion } from '../utils/openai.mjs';
 
-async function forecastWeatherToChannel(city, listeners) {
+async function forecastWeatherToChannel([city, listeners]) {
   const response = await forecast(city);
   const targetDay = response.forecast.forecastday[0];
   const {
