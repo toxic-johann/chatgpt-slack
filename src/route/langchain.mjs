@@ -69,7 +69,7 @@ const getExecutor = async () => {
   if (typeof _executor !== 'undefined') return _executor;
   _executor = await initializeAgentExecutorWithOptions(tools, model, {
     agentType: 'zero-shot-react-description',
-    maxIterations: 3,
+    maxIterations: 1,
     verbose: true,
   });
   return _executor;
