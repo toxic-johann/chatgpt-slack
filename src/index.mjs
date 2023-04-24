@@ -26,6 +26,7 @@ import * as langchain from './route/langchain.mjs';
 
 import './task/check-convertible-bond.mjs';
 import './task/today-weather.mjs';
+import './task/tomorrow-weather.mjs';
 import { getThreadTs } from './selectors/message.mjs';
 
 const { App } = pkg;

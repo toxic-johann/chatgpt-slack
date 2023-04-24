@@ -6,8 +6,8 @@ import { forecast } from '../utils/weather-api.mjs';
 import { chatCompletion } from '../utils/openai.mjs';
 
 async function forecastWeatherToChannel(city, listeners) {
-  const response = await forecast(city);
-  const targetDay = response.forecast.forecastday[0];
+  const response = await forecast(city, 2);
+  const targetDay = response.forecast.forecastday[1];
   const {
     maxtemp_c,
     maxtemp_f,
@@ -46,7 +46,7 @@ ${response.location.name} ${targetDay.date}
 UV: ${uv}
   `;
   sendMessageToChannel(dataString);
-  const result = await chatCompletion(`这是一个描述天气的 json 数据，请你根据当前的数据回答我的问题。1.天气如何？2.需要带伞吗？3.如何穿着？4.空气质量是否有问题？5.是否适合外出运动？6.是否需要防晒？7.风速是否适合骑行？${JSON.stringify({
+  const result = await chatCompletion(`天气如何？${JSON.stringify({
     maxtemp_c,
     mintemp_c,
     avgtemp_c,
@@ -70,7 +70,7 @@ function main() {
 }
 
 const job = new CronJob(
-  '00 45 08 * * *',
+  '00 05 20 * * *',
   main,
   null,
   null,

@@ -42,10 +42,10 @@ const tools = [
   // new DynamicTool({
   //   name: 'weather',
   //   description:
-  //     'call this when the user want to know the weather of somewhere, the input should be a string contains the date requirement and position.',
-  //   func: (...args) => {
-  //     console.warn(...args);
-  //     return 'baz';
+  //     'call this when the user want to know the weather of somewhere, the input should be a string contains the time and english name of the position.',
+  //   func: (input, runManager) => {
+  //     console.warn(input);
+  //     return 'done';
   //   },
   // }),
   new DynamicTool({
@@ -104,5 +104,5 @@ export const route = async ({ message, say }) => {
 //   console.log(`Got output ${result.output}`);
 // };
 
-// run('Remind me to me to send the mail at 8am tomorrow');
+// run('秦皇岛 3.14 天气如何？');
 // run('Remind me to me to send the mail at 7am tomorrow');
