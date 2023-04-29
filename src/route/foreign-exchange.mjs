@@ -22,6 +22,5 @@ number: xxx;
   const currencyConverter = new CC({ from: code, to: 'CNY', amount: parseFloat(number) });
   const cny = await currencyConverter.convert();
   const rates = await currencyConverter.rates();
-  console.log(rates);
-  await say({ text: `${cny}元`, thread_ts });
+  await say({ text: `${cny}元，汇率：1${code}=${rates}amount`, thread_ts });
 };
