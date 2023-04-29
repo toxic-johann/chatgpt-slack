@@ -16,6 +16,7 @@
     "@slack/web-api": "^6.8.1",
     "chatgpt": "^5.2.2",
     "cron": "^2.3.0",
+    "currency-converter-lt": "^2.0.0-beta.0",
     "dayjs": "^1.11.7",
     "iso-639-1": "^2.1.15",
     "langchain": "^0.0.62",
