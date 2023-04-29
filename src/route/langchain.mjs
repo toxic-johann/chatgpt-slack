@@ -57,7 +57,12 @@ We accept three inputs.
       const currencyConverter = new CC({ from, to, amount: parseFloat(amount) });
       const money = await currencyConverter.convert();
       const rates = await currencyConverter.rates();
-      return `${money}${to}, 1${from}=${rates}${to}`;
+      const result = `${money}${to}, 1${from}=${rates}${to}`;
+      if (slackInput) {
+        const thread_ts = getThreadTs(slackInput.message);
+        slackInput.say({ text: result, thread_ts });
+      }
+      return result;
     },
   }),
   new DynamicTool({
