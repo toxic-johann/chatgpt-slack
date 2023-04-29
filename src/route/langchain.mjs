@@ -5,6 +5,7 @@
 import { OpenAI } from 'langchain/llms/openai';
 import { initializeAgentExecutorWithOptions } from 'langchain/agents';
 import { DynamicTool } from 'langchain/tools';
+import CC from 'currency-converter-lt';
 import { OPENAI_API_KEY } from '../config.mjs';
 import { getThreadTs } from '../selectors/message.mjs';
 import { route as remindRoute } from './remind.mjs';
@@ -32,22 +33,33 @@ function getSlackInputFromRunManager(runManager) {
   for (let i = 0; i < runManager.inheritableHandlers.length; i++) {
     const handler = runManager.inheritableHandlers[i];
     if (typeof handler.getSlackInput === 'function') {
-      console.warn(handler);
       return handler.getSlackInput();
     }
   }
   return undefined;
 }
 const tools = [
-  // new DynamicTool({
-  //   name: 'weather',
-  //   description:
-  //     'call this when the user want to know the weather of somewhere, the input should be a string contains the time and english name of the position.',
-  //   func: (input, runManager) => {
-  //     console.warn(input);
-  //     return 'done';
-  //   },
-  // }),
+  new DynamicTool({
+    name: 'fx',
+    description: `call this when the user need to calculate foreign exchange.
+We accept three inputs.
+1. The amount of the currency, in number.
+2. The original currency code.
+3. The target currency code, the user sometime won't provide this one, you can deduce from their language, for example, CNY for Chinese, USD for English.
+`,
+    func: async (text, runManager) => {
+      const slackInput = getSlackInputFromRunManager(runManager);
+      if (slackInput) {
+        const thread_ts = getThreadTs(slackInput.message);
+        slackInput.say({ text: `fx action: ${text}`, thread_ts });
+      }
+      const [amount, from, to] = text.replace(/\s/g, '').split(',');
+      const currencyConverter = new CC({ from, to, amount: parseFloat(amount) });
+      const money = await currencyConverter.convert();
+      const rates = await currencyConverter.rates();
+      return `${money}${to}, 1${from}=${rates}${to}`;
+    },
+  }),
   new DynamicTool({
     name: 'reminder',
     description:
@@ -106,5 +118,6 @@ export const route = async ({ message, say }) => {
 //   console.log(`Got output ${result.output}`);
 // };
 
-// run('秦皇岛 3.14 天气如何？');
+// run('10欧元等于多少日元？');
+// run('10 pounds');
 // run('Remind me to me to send the mail at 7am tomorrow');
