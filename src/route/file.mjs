@@ -41,14 +41,14 @@ export const route = async ({ message, say }) => {
     const tips = `It will expire at ${expiration.format()}`;
     say({ text: tips, thread_ts });
     [3, 2, 1].forEach(async (day) => {
-      const post_at = expiration.subtract(day, 'day').utc().unix();
-      say({ text: `I will remind you at ${post_at.format()}`, thread_ts });
+      const remindTime = expiration.subtract(day, 'day');
+      say({ text: `I will remind you at ${remindTime.format()}`, thread_ts });
       try {
         await web.chat.scheduleMessage({
           channel: message.channel,
           text: tips,
           thread_ts,
-          post_at,
+          post_at: remindTime.utc().unix(),
         });
       } catch (error) {
         console.error(error);
