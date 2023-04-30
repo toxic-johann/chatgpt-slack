@@ -1,7 +1,7 @@
 import { getThreadTs } from '../selectors/message.mjs';
 import { detectTextFromImageBuffer } from '../utils/ocr.mjs';
 
-export const regExp = '';
+export const regExp = /^$/;
 
 export const introduction = 'Handle file';
 
