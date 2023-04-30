@@ -24,6 +24,7 @@ import * as debug from './route/debug.mjs';
 import * as expert from './route/expert.mjs';
 import * as langchain from './route/langchain.mjs';
 import * as foreignExchange from './route/foreign-exchange.mjs';
+import * as file from './route/file.mjs';
 
 import './task/check-convertible-bond.mjs';
 import './task/today-weather.mjs';
@@ -57,6 +58,7 @@ routesMap.set(debug.regExp, debug);
 routesMap.set(expert.regExp, expert);
 routesMap.set(langchain.regExp, langchain);
 routesMap.set(foreignExchange.regExp, foreignExchange);
+routesMap.set(file.regExp, file);
 
 const keys = [];
 const introductions = [];
