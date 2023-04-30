@@ -18,7 +18,8 @@ export const route = async ({ message, say }) => {
         Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
       },
     });
-    const buffer = await response.arrayBuffer();
+    const arrayBuffer = await response.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
     const text = await detectTextFromImageBuffer(buffer);
     say({ text, thread_ts });
   });
