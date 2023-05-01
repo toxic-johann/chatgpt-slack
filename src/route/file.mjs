@@ -43,7 +43,7 @@ export const route = async ({ message, say }) => {
     const tips = `It will expire at ${expiration.format()}`;
     say({ text: tips, thread_ts });
     [3, 2, 1].forEach(async (day) => {
-      const remindTime = expiration.subtract(day, 'day');
+      const remindTime = expiration.subtract(day, 'day').hour(21);
       say({ text: `I will remind you at ${remindTime.format()}`, thread_ts });
       try {
         await web.chat.scheduleMessage({
