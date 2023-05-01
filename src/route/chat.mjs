@@ -8,6 +8,7 @@ export const route = async ({ message, say }) => {
   const res = await chatgpt.sendMessage(message.text, {
     parentMessageId,
   });
+  console.warn(res);
   conversationCache.set(thread_ts, res.id);
   // say() sends a message to the channel where the event was triggered
   await say({ text: res.text, thread_ts });
