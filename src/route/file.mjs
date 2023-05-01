@@ -29,14 +29,16 @@ export const route = async ({ message, say }) => {
     const arrayBuffer = await response.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
     const text = await detectTextFromImageBuffer(buffer);
+    const { user: userId } = message;
+    const { user: { tz } } = await web.users.info({ user: userId });
+    const clientTime = dayjs.unix(message.ts).tz(tz);
     say({ text, thread_ts });
-    const timeInformation = await chatCompletion(`The following text includes an expiration time. Please extract it and format it as YYYY-MM-DDThh:mm:ss. ${text}`, {
+    const timeInformation = await chatCompletion(`The following text includes an expiration time. Please extract it and format it as YYYY-MM-DDThh:mm:ss. The current time is ${clientTime.format()}. The expiration time should be after the the current time.
+    ${text}`, {
       temperature: 0,
     });
     say({ text: timeInformation, thread_ts });
     const timeString = timeInformation.match(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/i)[0];
-    const { user: userId } = message;
-    const { user: { tz } } = await web.users.info({ user: userId });
     const expiration = dayjs.tz(timeString, tz);
     const tips = `It will expire at ${expiration.format()}`;
     say({ text: tips, thread_ts });
