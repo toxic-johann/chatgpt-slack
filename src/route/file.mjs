@@ -55,6 +55,8 @@ export const route = async ({ message, say }) => {
       });
       return;
     }
+    console.warn(file.audio_wave_samples);
+    console.warn(buffer);
     const text = await speechToText(buffer);
     say({ text, thread_ts });
     chat.route({
