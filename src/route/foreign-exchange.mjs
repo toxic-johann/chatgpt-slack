@@ -21,7 +21,7 @@ number: xxx;
   const code = info.match(/code:\s*([a-z]+)/i)[1];
   const number = info.match(/number:\s*(\d+(\.\d+)?)/i)[1];
   const currencyConverter = new CC({ from: code, to: 'CNY', amount: parseFloat(number) });
-  const cny = await currencyConverter.convert();
   const rates = await currencyConverter.rates();
+  const cny = await currencyConverter.convert();
   await say({ text: `${cny}元，汇率：1${code}=${rates}cny`, thread_ts });
 };
