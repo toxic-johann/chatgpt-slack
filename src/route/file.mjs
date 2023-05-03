@@ -58,6 +58,7 @@ export const route = async ({ message, say }) => {
     const text = await speechToText(buffer);
     if (typeof text !== 'string' || !text) {
       say({ text: 'speech-to-text failed', thread_ts });
+      return;
     }
     say({ text, thread_ts });
     chat.route({
