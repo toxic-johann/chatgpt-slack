@@ -55,11 +55,14 @@ export const route = async ({ message, say }) => {
       });
       return;
     }
-    const text = speechToText(buffer);
+    const text = await speechToText(buffer);
     say({ text, thread_ts });
     chat.route({
-      text,
-      thread_ts,
-    }, say);
+      message: {
+        text,
+        thread_ts,
+      },
+      say,
+    });
   });
 };
