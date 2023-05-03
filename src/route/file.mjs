@@ -23,7 +23,7 @@ export const route = async ({ message, say }) => {
     if (!file.mimetype.startsWith('image') && !file.mimetype.startsWith('audio/webm')) {
       return;
     }
-    const buffer = downloadSlackFileAndConvertToBuffer(file);
+    const buffer = await downloadSlackFileAndConvertToBuffer(file);
     if (file.mimetype.startsWith('image')) {
       const text = await detectTextFromImageBuffer(buffer);
       const { user: userId } = message;
