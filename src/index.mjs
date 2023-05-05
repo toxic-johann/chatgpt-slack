@@ -3,7 +3,6 @@ import './utils/fetch-polyfill.mjs';
 
 import pkg from '@slack/bolt';
 import os from 'os';
-import http from 'http';
 import { autoUpdate } from './utils/auto-update.mjs';
 
 import {
@@ -73,9 +72,3 @@ app.message(defaultRegExp, logWrapper(chat.route));
 
   console.log(text);
 })();
-
-http.createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.write('Hello World!');
-  res.end();
-}).listen(80);
