@@ -9,27 +9,15 @@ import {
   SLACK_APP_TOKEN, SLACK_BOT_TOKEN, SLACK_SIGNING_SECRET,
 } from './config.mjs';
 import { sendMessageToChannel } from './utils/web-client.mjs';
-import * as stableDiffusion from './route/stable-diffusion.mjs';
-import * as draw from './route/draw.mjs';
 import * as chat from './route/chat.mjs';
-import * as translate from './route/translate.mjs';
-import * as midjourney from './route/midjourney.mjs';
-import * as createPrompt from './route/create-prompt.mjs';
-import * as createStory from './route/create-story.mjs';
-import * as createUnitTest from './route/create-unit-test.mjs';
-import * as remind from './route/remind.mjs';
-import * as artBook from './route/art-book.mjs';
-import * as image from './route/image.mjs';
-import * as debug from './route/debug.mjs';
-import * as expert from './route/expert.mjs';
-import * as langchain from './route/langchain.mjs';
-import * as foreignExchange from './route/foreign-exchange.mjs';
+
 import * as file from './route/file.mjs';
 
 import './task/check-convertible-bond.mjs';
 import './task/today-weather.mjs';
 import './task/tomorrow-weather.mjs';
 import { getThreadTs } from './selectors/message.mjs';
+import { featureRoutesMap } from './route/features.mjs';
 
 const { App } = pkg;
 
@@ -40,24 +28,11 @@ const app = new App({
   appToken: SLACK_APP_TOKEN,
 });
 
-const routesMap = new Map();
+const routesMap = new Map(featureRoutesMap);
 routesMap.set('git pull', {
   route: ({ message }) => autoUpdate(true, (text) => sendMessageToChannel(text, message.channel)),
 });
-routesMap.set(draw.regExp, draw);
-routesMap.set(stableDiffusion.regExp, stableDiffusion);
-routesMap.set(midjourney.regExp, midjourney);
-routesMap.set(createPrompt.regExp, createPrompt);
-routesMap.set(translate.regExp, translate);
-routesMap.set(remind.regExp, remind);
-routesMap.set(artBook.regExp, artBook);
-routesMap.set(createStory.regExp, createStory);
-routesMap.set(createUnitTest.regExp, createUnitTest);
-routesMap.set(image.regExp, image);
-routesMap.set(debug.regExp, debug);
-routesMap.set(expert.regExp, expert);
-routesMap.set(langchain.regExp, langchain);
-routesMap.set(foreignExchange.regExp, foreignExchange);
+
 routesMap.set(file.regExp, file);
 
 const keys = [];

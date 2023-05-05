@@ -8,6 +8,7 @@ import { web } from '../utils/web-client.mjs';
 import { downloadSlackFileAndConvertToBuffer } from '../utils/download-slack-file.mjs';
 import { speechToText } from '../utils/speech-to-text.mjs';
 import * as chat from './chat.mjs';
+import { featureRoutesMap } from './features.mjs';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -60,7 +61,22 @@ export const route = async ({ message, say }) => {
       say({ text: 'speech-to-text failed', thread_ts });
       return;
     }
+    const input = {
+      message: {
+        text,
+        thread_ts,
+      },
+      say,
+    };
     say({ text, thread_ts });
+    let isHandled = false;
+    featureRoutesMap.forEach((value, key) => {
+      if (key.test(text)) {
+        isHandled = true;
+        value.route(input);
+      }
+    });
+    if (isHandled) return;
     chat.route({
       message: {
         text,
