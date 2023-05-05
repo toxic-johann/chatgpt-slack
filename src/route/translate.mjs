@@ -11,7 +11,7 @@ export const route = async ({ message, say }) => {
   const [code, text] = message.text.split(':');
   const thread_ts = message.thread_ts || message.ts;
   const parentMessageId = conversationCache.get(thread_ts);
-  const res = await chatgpt.sendMessage(`traslate "${text}" into ${ISO6391.getName(code)}`, {
+  const res = await chatgpt.sendMessage(`traslate "${text}" into ${ISO6391.getName(code.toLowerCase())}`, {
     parentMessageId,
   });
   conversationCache.set(thread_ts, res.id);

@@ -20,7 +20,7 @@ export default ({
   console.log(description);
   const res = await chatgpt.sendMessage(description, {
     parentMessageId,
-    systemMessage: languageRequirement ? `Please respond me in ${ISO6391.getName(languageRequirement)}` : undefined,
+    systemMessage: languageRequirement ? `Please respond me in ${ISO6391.getName(languageRequirement.toLowerCase())}` : undefined,
   });
   conversationCache.set(thread_ts, res.id);
   // say() sends a message to the channel where the event was triggered
