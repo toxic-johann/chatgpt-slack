@@ -20,7 +20,7 @@ export const route = async ({ message, say }) => {
   const { files } = message;
   const thread_ts = getThreadTs(message);
   files.forEach(async (file) => {
-    if (!file.mimetype.startsWith('image') && !file.mimetype.startsWith('audio/webm')) {
+    if (!file.mimetype.startsWith('image') && !file.mimetype.startsWith('audio')) {
       return;
     }
     const buffer = await downloadSlackFileAndConvertToBuffer(file);
