@@ -9,7 +9,7 @@ import { autoUpdate } from './utils/auto-update.mjs';
 import {
   SLACK_APP_TOKEN, SLACK_BOT_TOKEN, SLACK_SIGNING_SECRET,
 } from './config.mjs';
-import { sendMessageToChannel } from './utils/web-client.mjs';
+import { sendMessageToChannel, slackLog } from './utils/web-client.mjs';
 import * as chat from './route/chat.mjs';
 
 import * as file from './route/file.mjs';
@@ -69,12 +69,14 @@ app.message(defaultRegExp, logWrapper(chat.route));
 
   const text = `⚡️ Bolt app is running on machine ${os.hostname()} at ${Date()}`;
 
-  sendMessageToChannel(text);
+  slackLog(text);
 
   console.log(text);
 })();
 
 http.createServer((req, res) => {
+  slackLog('port requested');
+  console.log(req);
   res.writeHead(200, { 'Content-Type': 'text/plain' });
   res.write('Hello World!');
   res.end();

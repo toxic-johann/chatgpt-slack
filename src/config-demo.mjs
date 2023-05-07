@@ -9,3 +9,4 @@ export const WEATHER_API_KEY = '';
 export const weatherListnerMap = {
   beijing: ['', ''],
 };
+export const LOG_CHANNEL_ID = '';

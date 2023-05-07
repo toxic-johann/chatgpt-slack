@@ -1,5 +1,5 @@
 import { WebClient } from '@slack/web-api';
-import { CHATGPT_CHANNEL_ID, SLACK_BOT_TOKEN } from '../config.mjs';
+import { CHATGPT_CHANNEL_ID, LOG_CHANNEL_ID, SLACK_BOT_TOKEN } from '../config.mjs';
 
 // Initialize
 export const web = new WebClient(SLACK_BOT_TOKEN);
@@ -14,4 +14,8 @@ export async function sendMessageToChannel(text, channel = CHATGPT_CHANNEL_ID) {
     console.error(error);
   }
   return Promise.reject();
+}
+
+export function slackLog(text) {
+  return sendMessageToChannel(text, LOG_CHANNEL_ID);
 }

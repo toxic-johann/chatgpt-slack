@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint ./src/**.mjs"
+    "lint": "eslint ./src/**.mjs",
+    "mock": "node scripts/mock-config.js"
   },
   "author": "",
   "license": "ISC",
