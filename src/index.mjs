@@ -4,6 +4,7 @@ import './utils/fetch-polyfill.mjs';
 import pkg from '@slack/bolt';
 import os from 'os';
 import http from 'http';
+import jsonBody from 'body/json.js';
 import { autoUpdate } from './utils/auto-update.mjs';
 
 import {
@@ -19,6 +20,7 @@ import './task/today-weather.mjs';
 import './task/tomorrow-weather.mjs';
 import { getThreadTs } from './selectors/message.mjs';
 import { featureRoutesMap } from './route/features.mjs';
+import chatgpt from './utils/chatgpt.mjs';
 
 const { App } = pkg;
 
@@ -76,8 +78,15 @@ app.message(defaultRegExp, logWrapper(chat.route));
 
 http.createServer((req, res) => {
   slackLog('port requested');
-  console.log(req);
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.write('Hello World!');
-  res.end();
+  jsonBody(req, async (err, bodyPayload) => {
+    if (err || typeof bodyPayload.text !== 'string' || !bodyPayload.text) {
+      res.writeHead(403);
+      res.end();
+      return;
+    }
+    const answer = await chatgpt.sendMessage(bodyPayload.text);
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.write(answer.text);
+    res.end();
+  });
 }).listen(7322);
