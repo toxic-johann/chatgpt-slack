@@ -17,8 +17,6 @@ export const introduction = 'remind: remind me to do something at a specific tim
 export const route = async ({ message, say }) => {
   const thread_ts = getThreadTs(message);
   const clientTime = dayjs.unix(message.ts);
-  const { user: userId } = message;
-  const { user: { tz } } = await web.users.info({ user: userId });
   const remindInfo = await chatCompletion(`
   I want to extract information from the reminder message. This kind of message usually includes two pieces of information. One is the time message. The other one is the work that I need to do at that time.
   For example, Remind me to buy tickets at 5 pm should split into these two parts.
@@ -30,7 +28,7 @@ export const route = async ({ message, say }) => {
   Work: xxxx
   Time: xxxx
   My message is “${message.text.replace(/^r:/i, '')}“.
-  The current time is ${clientTime.tz(tz).format()}.
+  The current time is 
   `, {
     temperature: 0,
   });
@@ -38,10 +36,12 @@ export const route = async ({ message, say }) => {
   await say({ text: remindInfo, thread_ts });
   const timeString = remindInfo.match(/Time: (.*)/i)[1];
   const workString = remindInfo.match(/Work: (.*)/i)[1];
+  const { user: userId } = message;
+  const { user: { tz } } = await web.users.info({ user: userId });
   const {
     time,
     duration,
-  } = await timeConvert(timeString, (text) => say({ text, thread_ts }));
+  } = await timeConvert(timeString, clientTime.tz(tz).format(), (text) => say({ text, thread_ts }));
   await say({ text: `Time: ${time}\nDuration: ${duration}\nWork: ${workString}`, thread_ts });
   let estimateTime;
   if (/\d+-\d+:\d+:\d+/.test(duration)) {
