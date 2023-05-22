@@ -28,7 +28,6 @@ export const route = async ({ message, say }) => {
   Work: xxxx
   Time: xxxx
   My message is “${message.text.replace(/^r:/i, '')}“.
-  The current time is 
   `, {
     temperature: 0,
   });
