@@ -9,7 +9,9 @@ export default async (message, log) => {
   Final output:
     duration: [DD-hh:mm:ss]
     Time: [YYYY-MM-DD hh:mm:ss]
-  My message is "${message}"`);
+  My message is "${message}"`, {
+    temperature: 0,
+  });
   if (typeof log === 'function') {
     log(text);
   }
