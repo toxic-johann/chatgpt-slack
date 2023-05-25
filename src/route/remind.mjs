@@ -36,7 +36,6 @@ export const route = async ({ message, say }) => {
   const timeString = remindInfo.match(/Time: (.*)/i)[1];
   const workString = remindInfo.match(/Work: (.*)/i)[1];
   const { user: userId } = message;
-  console.log(userId);
   const { user: { tz } } = await web.users.info({ user: userId });
   const {
     time,
