@@ -18,7 +18,7 @@ export const regExp = /^$/;
 export const introduction = 'Handle file';
 
 export const route = async ({ message, say }) => {
-  const { files } = message;
+  const { files, ...rest } = message;
   const thread_ts = getThreadTs(message);
   files.forEach(async (file) => {
     if (!file.mimetype.startsWith('image') && !file.mimetype.startsWith('audio')) {
@@ -63,9 +63,9 @@ export const route = async ({ message, say }) => {
     }
     const input = {
       message: {
+        ...rest,
         text,
         thread_ts,
-        user: message.user,
       },
       say,
     };
