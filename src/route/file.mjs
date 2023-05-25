@@ -56,6 +56,7 @@ export const route = async ({ message, say }) => {
       });
       return;
     }
+    console.warn(file.audio_wave_samples);
     const text = await speechToText(buffer);
     if (typeof text !== 'string' || !text) {
       say({ text: 'speech-to-text failed', thread_ts });
