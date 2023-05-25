@@ -65,6 +65,7 @@ export const route = async ({ message, say }) => {
       message: {
         text,
         thread_ts,
+        user: message.user,
       },
       say,
     };
